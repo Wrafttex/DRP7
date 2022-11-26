@@ -6,3 +6,14 @@ services:
       - "8000:5000"
   redis:
     image: "redis:alpine"
+
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    volumes:
+      - ./config/:/mosquitto/config/:ro
+      - ./log/:/mosquitto/log/
+      - ./data:/mosquitto/data/
+    ports:
+      - 1883:1883
+      - 9001:9001
