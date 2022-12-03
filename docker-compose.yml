@@ -4,6 +4,7 @@ services:
     build: .
     ports:
       - "8000:5000"
+
   redis:
     image: "redis:alpine"
 
@@ -11,7 +12,7 @@ services:
     image: eclipse-mosquitto:latest
     container_name: mosquitto
     volumes:
-       - ./mosquitto:/mosquitto
+      - ./mosquitto:/mosquitto
     ports:
       - 1883:1883
       - 9001:9001
