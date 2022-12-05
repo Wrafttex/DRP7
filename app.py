@@ -59,14 +59,7 @@ def imagetest():
 
 @app.route("/imagedata",methods=["POST","GET"])
 def data():
-    print("test")
-    f = open("test.txt","w")
     a =request.get_json()
-    f.write(str(a["imgpixel"]["px"]))
-    f.close()
-    print(request.get_json())
-    # df = pd.read_json()
-    # df.to_json("test.csv")
     return str(a["imgpixel"]["px"]),200  
 
 @app.route("/")
