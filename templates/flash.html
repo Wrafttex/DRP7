@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <!-- def mainspiffs(ssid:str, wifi_pass: str, mqtt_host: str, mqtt_port: int, mqtt_user: str, mqtt_pass: str): -->
+    <h1>ESP-Web-Tool-Test</h1>
+    <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script>
+    <esp-web-install-button manifest="./ESP_Data/manifest.json"></esp-web-install-button>
+    <h1>testing</h1>
+    <form action="testingurl" method="post">
+        <label for="ssid">SSID</label>
+        <br>
+        <input type="text" name="ssid"
+                    placeholder="wifi name"
+                    value="{{ request.form['ssid'] }}">
+        <br>
+
+        <label for="wifi_pass">WIFI password</label>
+        <br>
+        <input type="text" name="wifi_pass"
+                    placeholder="wifi password"
+                    value="{{ request.form['wifi_pass'] }}">
+        <br>
+        <label for="mqtt_host">mqtt host</label>
+        <br>
+        <input type="text" name="mqtt_host"
+                    
+                    value="{{ request.form['mqtt_host'] }}">
+        <br>
+        <label for="mqtt_port">mqtt port</label>
+        <br>
+        <input type="number" name="mqtt_port"
+                    value="{{ request.form['mqtt_port'] }}">
+        <br>
+        <label for="mqtt_user">mqtt user</label>
+        <br>
+        <input type="text" name="mqtt_user"
+                    value="{{ request.form['mqtt_user'] }}">
+        <br>
+        <label for="mqtt_pass">mqtt pass</label>
+        <br>
+        <input type="text" name="mqtt_pass"
+                    value="{{ request.form['mqtt_pass'] }}">
+        <br>
+        <button type="submit">Submit</button>          
+    </form>
+
+
+</body>
+</html>

@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 #from flask_mqtt import Mqtt
 from paho.mqtt import client as mqtt_client
+from mainspiffs import mainspiffs
 
 app = Flask(__name__)
 CORS(app)
@@ -67,6 +68,14 @@ def data():
     if request.method == "GET":
         return {"test":"hello"}
     return "okay",200
+@app.route("/esp_flash")
+def esp_flash():
+    return render_template("flash.html")
+
+@app.route("/testingurl",methods=["GET","POST"])
+def testingurl():
+    return render_template("testingurl.html",datatojson=request.form)
+
 
 @app.route("/")
 def home():
