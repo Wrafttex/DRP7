@@ -67,10 +67,22 @@
 
             }
             console.log(JSON.stringify(jsondata))
-            
+            post_data(jsondata)
             //alert("click on "+this.tagName+" at pixel ("+px+","+py+") mouse pos ("+x+"," + y+ ") relative to boundingClientRect at ("+left+","+top+") client image size: "+cw+" x "+ch+" natural image size: "+iw+" x "+ih );
         });
     });
-    
+    function post_data(data){
+        
+        let site = new URL(window.location.href)
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST","/imagedata",true)
+        xhr.setRequestHeader("Content-Type", "application/json")
+        console.log(data)
+        xhr.onreadystatechange = function (){
+            if (xhr.readyState == XMLHttpRequest.DONE){
+                console.log(xhr.responseText)
+            }
+        }
+    }
 </script>
 </html>
