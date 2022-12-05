@@ -4,7 +4,7 @@ from flask_cors import CORS
 #from flask_mqtt import Mqtt
 from paho.mqtt import client as mqtt_client
 from mainspiffs import mainspiffs
-
+import json
 app = Flask(__name__)
 CORS(app)
 cache = redis.Redis(host='redis', port=6379)
@@ -74,7 +74,12 @@ def esp_flash():
 
 @app.route("/testingurl",methods=["GET","POST"])
 def testingurl():
-    return render_template("testingurl.html",datatojson=request.form)
+    espdata = request.form.to_dict()
+    f = open("test.txt","w")
+    f.write(json.dumps(espdata))
+    f.close()
+    mainspiffs(espdata["ssid"],espdata["wifi_pass"],espdata["mqtt_host"],espdata["mqtt_port"],espdata["mqtt_user"],espdata["mqtt_pass"])
+    return render_template("testingurl.html",datatojson=request.form.to_dict())
 
 
 @app.route("/")

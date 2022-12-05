@@ -9,7 +9,7 @@ SPIFFS_BLOCK_IX_LEN = 2  # spiffs_block_ix
 
 BASE_DIR = "data"
 
-def make_spiffs(output_file="spiffs.bin",
+def make_spiffs(output_file="./static/ESP_DATA/spiffs.bin",
                 image_size="0xf000",
                 page_size=256,
                 block_size=4096,
