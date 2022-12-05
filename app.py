@@ -1,9 +1,11 @@
 import redis
 from flask import Flask, render_template, request, jsonify
+from flask_cors import CORS
 #from flask_mqtt import Mqtt
 from paho.mqtt import client as mqtt_client
 
 app = Flask(__name__)
+CORS(app)
 cache = redis.Redis(host='redis', port=6379)
 #app.config['MQTT_BROKER_URL'] = "localhost"
 #app.config['MQTT_BROKER_PORT'] = 1883
@@ -57,10 +59,14 @@ def publish_message(msg):
 def imagetest():
     return render_template("imagetesting.html")
 
-@app.route("/imagedata",methods=["POST","GET"])
+@app.route("/imagedata",methods=["GET","POST"])
 def data():
-    a =request.get_json()
-    return str(a["imgpixel"]["px"]),200  
+    if request.method == "POST":
+        a =request.get_json()
+        return a,200
+    if request.method == "GET":
+        return {"test":"hello"}
+    return "okay",200
 
 @app.route("/")
 def home():
@@ -69,3 +75,4 @@ def home():
 if __name__ == "__main__":
     #runConnect()
     app.run(debug=True)
+    

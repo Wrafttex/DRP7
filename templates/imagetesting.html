@@ -72,17 +72,16 @@
         });
     });
     function post_data(data){
-        
-        let site = new URL(window.location.href)
         var xhr = new XMLHttpRequest();
         xhr.open("POST","/imagedata",true)
         xhr.setRequestHeader("Content-Type", "application/json")
-        console.log(data)
+        xhr.send(JSON.stringify(data))
         xhr.onreadystatechange = function (){
             if (xhr.readyState == XMLHttpRequest.DONE){
                 console.log(xhr.responseText)
             }
         }
+        
     }
 </script>
 </html>
