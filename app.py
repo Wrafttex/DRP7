@@ -53,6 +53,11 @@ def runConnect():
 def publish_message(msg):
    return jsonify("", render_template("updatePublications.html", publications=msg))
 
+@app.route("/imagetesting",methods=["GET","POST"])
+def imagetest():
+    return render_template("imagetesting.html")
+
+
 @app.route("/")
 def home():
     return render_template("home.html", topic=topic, publications="")
