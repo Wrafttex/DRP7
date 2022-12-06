@@ -68,4 +68,4 @@ def mainspiffs(ssid:str, wifi_pass: str, mqtt_host: str, mqtt_port: int, mqtt_us
     make_spiffs()
 
 if __name__ == '__main__':
-    mainspiffs("Waoo4920_L48V","fkff8984","","","","")
+    mainspiffs("","","","","","")
