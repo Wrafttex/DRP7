@@ -81,6 +81,9 @@ def testingurl():
     mainspiffs(espdata["ssid"],espdata["wifi_pass"],espdata["mqtt_host"],espdata["mqtt_port"],espdata["mqtt_user"],espdata["mqtt_pass"])
     return espdata,200
 
+@app.route("/esp_base")
+def esp_base():
+    return render_template("base_flash.html")
 
 @app.route("/")
 def home():
