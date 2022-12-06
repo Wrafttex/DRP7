@@ -75,17 +75,18 @@ def esp_flash():
 @app.route("/testingurl",methods=["GET","POST"])
 def testingurl():
     espdata = request.form.to_dict()
-    f = open("test.txt","w")
-    f.write(json.dumps(espdata))
+    f = open("testing.txt","w")
+    f.write(str(espdata))
     f.close()
     mainspiffs(espdata["ssid"],espdata["wifi_pass"],espdata["mqtt_host"],espdata["mqtt_port"],espdata["mqtt_user"],espdata["mqtt_pass"])
-    return render_template("testingurl.html",datatojson=request.form.to_dict())
+    return espdata,200
 
 
 @app.route("/")
 def home():
     return render_template("home.html", topic=topic, publications="")
 
+#TODO Get SSL to work
 if __name__ == "__main__":
     #runConnect()
     app.run(debug=True)

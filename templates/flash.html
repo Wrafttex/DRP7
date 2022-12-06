@@ -4,46 +4,68 @@
     <!-- def mainspiffs(ssid:str, wifi_pass: str, mqtt_host: str, mqtt_port: int, mqtt_user: str, mqtt_pass: str): -->
     <h1>ESP-Web-Tool-Test</h1>
     <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script>
-    <esp-web-install-button manifest="{{ url_for('static',filename='ESP_DATA/manifest.json') }}"></esp-web-install-button>
+    <esp-web-install-button manifest="{{ url_for('static',filename='ESP_DATA/manifest.json') }}" hidden="true" id="esp-button"></esp-web-install-button>
     <h1>testing</h1>
-    <form action="testingurl" method="post">
+    <form  method="post" id="flash-form">
         <label for="ssid">SSID</label>
         <br>
         <input type="text" name="ssid"
-                    placeholder="wifi name"
-                    value="{{ request.form['ssid'] }}">
+                    placeholder="wifi name" id="ssid">
         <br>
 
         <label for="wifi_pass">WIFI password</label>
         <br>
-        <input type="text" name="wifi_pass"
-                    placeholder="wifi password"
-                    value="{{ request.form['wifi_pass'] }}">
+        <input type="text" name="wifi_pass" id="wifi_pass"
+                    placeholder="wifi password">
         <br>
         <label for="mqtt_host">mqtt host</label>
         <br>
-        <input type="text" name="mqtt_host"
-                    
-                    value="{{ request.form['mqtt_host'] }}">
+        <input type="text" name="mqtt_host" id="mqtt_host">
         <br>
         <label for="mqtt_port">mqtt port</label>
         <br>
-        <input type="number" name="mqtt_port"
-                    value="{{ request.form['mqtt_port'] }}">
+        <input type="number" name="mqtt_port" id="mqtt_port">
         <br>
         <label for="mqtt_user">mqtt user</label>
         <br>
-        <input type="text" name="mqtt_user"
-                    value="{{ request.form['mqtt_user'] }}">
+        <input type="text" name="mqtt_user" id="mqtt_user">
         <br>
         <label for="mqtt_pass">mqtt pass</label>
         <br>
-        <input type="text" name="mqtt_pass"
-                    value="{{ request.form['mqtt_pass'] }}">
+        <input type="text" name="mqtt_pass" id="mqtt_pass">
         <br>
         <button type="submit">Submit</button>          
     </form>
 
 
 </body>
+<script src="{{ url_for('static',filename='scripts/js/jquery-3.6.1.js') }}"></script>
+
+<script type='text/javascript'>
+    $(document).on('submit','#flash-form',function(e)
+    {
+        console.log('hello');
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'/testingurl',
+            data:{
+                ssid:$("#ssid").val(),
+                wifi_pass:$("#wifi_pass").val(),
+                mqtt_host:$("#mqtt_host").val(),
+                mqtt_port:$("#mqtt_port").val(),
+                mqtt_user:$("#mqtt_user").val(),
+                mqtt_pass:$("#mqtt_pass").val(),
+
+            },
+            success:function(response)
+            {
+                console.log('saved');
+                $("#esp-button").removeAttr("hidden")
+                console.log(response)
+            }
+        })
+    });
+
+</script>
 </html>
