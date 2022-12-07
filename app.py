@@ -89,6 +89,10 @@ def esp_base():
 def home():
     return render_template("home.html", topic=topic, publications="")
 
+@app.route("/index")
+def index():
+    return render_template("index.html")
+
 #TODO Get SSL to work
 if __name__ == "__main__":
     #runConnect()
