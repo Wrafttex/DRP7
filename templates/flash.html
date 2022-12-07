@@ -4,7 +4,7 @@
     <body>
         <!-- def mainspiffs(ssid:str, wifi_pass: str, mqtt_host: str, mqtt_port: int, mqtt_user: str, mqtt_pass: str): -->
         <h1>ESP-Web-Tool-Test</h1>
-        <script type="module" src="https://unpkg.com/esp-web-tools@7.3.1/dist/web/install-button.js?module"></script><!-- #TODO hidden="true"-->
+        <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script><!-- #TODO hidden="true"-->
         <esp-web-install-button id="installButton" manifest="{{ url_for('static',filename='ESP_DATA/manifest.json') }}"></esp-web-install-button>
         <h1>testing</h1>
         <form  method="post" id="flash-form">
