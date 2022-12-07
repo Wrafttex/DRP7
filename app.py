@@ -72,7 +72,7 @@ def data():
 def esp_flash():
     return render_template("flash.html")
 
-@app.route("/testingurl",methods=["GET","POST"])
+@app.route("/testingurl",methods=["POST"])
 def testingurl():
     espdata = request.form.to_dict()
     f = open("testing.txt","w")
@@ -92,6 +92,10 @@ def home():
 @app.route("/index")
 def index():
     return render_template("index.html")
+
+@app.route("/setting",methods=["POST"])
+def settings():
+    return render_template("settings.html")
 
 #TODO Get SSL to work
 if __name__ == "__main__":

@@ -1,0 +1,60 @@
+{%extends "navigator.html"%}
+
+    {%block content %}
+    <div class ="form-row mx-1" >
+        <div class ="form-group mx-1">
+            <form method="post" id="WIFI-form">
+                <h4>WIFI Settings</h4>
+                <br>
+                <div class="form-group">
+                  <label for="SSID">SSID</label>
+                  <input type="text" class="form-control" id="SSID" placeholder="network_2.4GHz">
+                </div>
+                <div class="form-group">
+                  <label for="wifi_pass">WIFI Passowrd </label>
+                  <input type="text" class="form-control" id="wifi_pass" placeholder="Another input">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button> 
+              </form>
+        </div>
+        <div class ="form-group mx-1" >
+            <form method="post" id="MQTT-form">
+                <h4>MQTT Settings</h4>
+                <br>
+                <div class="form-group">
+
+                  <label for="MQTTHost">MQTT Host</label>
+                  <input type="text" class="form-control" id="MQTTHost" placeholder="127.0.0.1">
+                </div>
+                <div class="form-group">
+                  <label for="MQTTPort">MQTT Port</label>
+                  <input type="number" class="form-control" id="MQTTPort" placeholder="1883">
+                </div>
+                <div class="form-group">
+                    <label for="MQTTUser">MQTT Username</label>
+                    <input type="text" class="form-control" id="MQTTUser" placeholder="user">
+                </div>
+                <div class="form-group">
+                <label for="MQTTPass">MQTT Password</label>
+                <input type="text" class="form-control" id="MQTTPass" placeholder="pass123">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button> 
+              </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static',filename='scripts/js/jquery-3.6.1.js') }}"></script>
+    <script type='text/javascript'>
+        $(document).on('submit','#MQTT-form',function(e)
+        {
+           console.log("MQTT-form")
+           e.preventDefault();
+        });
+        $(document).on('submit','#WIFI-form',function(e)
+        {
+           console.log("WIFI-form")
+           e.preventDefault();
+        });
+    
+    
+    </script>
+    {%endblock%}
