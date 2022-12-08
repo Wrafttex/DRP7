@@ -7,7 +7,8 @@ from mainspiffs import mainspiffs
 import json
 app = Flask(__name__)
 CORS(app)
-cache = redis.Redis(host='redis', port=6379)
+redis_cache = redis.Redis(host='localhost', port=6379)
+
 #app.config['MQTT_BROKER_URL'] = "localhost"
 #app.config['MQTT_BROKER_PORT'] = 1883
 #app.config['MQTT_USERNAME'] = "TestUser"
@@ -93,8 +94,9 @@ def home():
 def index():
     return render_template("index.html")
 
-@app.route("/setting",methods=["POST"])
+@app.route("/setting",methods=["GET","POST"])
 def settings():
+    print("testigs")
     return render_template("settings.html")
 
 #TODO Get SSL to work
