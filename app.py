@@ -106,14 +106,15 @@ def settings():
     if request.method == "GET":
         return render_template("settings.html")
     
-@app.route("/settingsMQTT",methods=["POST"])
-def settingsMQTT():
+@app.route("/settingsSave",methods=["POST"])
+def settingsSave():
     if request.method == "POST":
         MQTT_Data = request.form.to_dict()
-        print(MQTT_Data)
         redis_cache.mset(MQTT_Data)
-        print(redis_cache.mget("mqtt_host","mqtt_port"))
-        return "MQTT data saved",200
+        return "Settings saved",200
+    
+
+
 
 #TODO Get SSL to work
 if __name__ == "__main__":

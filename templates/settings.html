@@ -50,7 +50,7 @@
             e.preventDefault();
             $.ajax({
                 type:'POST',
-                url:'/settingsMQTT',
+                url:'/settingsSave',
                 data:{
                     mqtt_host:$("#MQTTHost").val(),
                     mqtt_port:$("#MQTTPort").val(),
@@ -66,8 +66,21 @@
         });
         $(document).on('submit','#WIFI-form',function(e)
         {
-           console.log("WIFI-form")
-           e.preventDefault();
+            console.log('hello');
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url:'/settingsSave',
+                data:{
+                    ssid:$("#SSID").val(),
+                    wifi_pass:$("#wifi_pass").val(),
+                },
+                success:function(response)
+                {
+                    console.log('saved');
+                    console.log(response)
+                }
+            })
         });
     
     
