@@ -21,12 +21,19 @@ def espGridLayout():
     startlayout = f" <table class=\"{tableclass}\"> <thead> <tr> {thscope}ESP Name</th> {thscope}Occupancy detection</th></tr></thead><tbody>"
     roomjson = redis_cache.json().get("room")
     for index in range(len(roomjson["RoomOccupancy"])):
-        buttonlayout = f"<tr><th scope=\"row\"><button type=\"button\" data-toggle=\"modal\" data-target=\"\#modal{roomjson['RoomOccupancy'][index]['ESPId']}\" class=\"btn btn-light\">{roomjson['RoomOccupancy'][index]['ESPId']}</button>"
+        buttonlayout = f"<tr><th scope=\"row\"><button type=\"button\" data-toggle=\"modal\" data-target=\"#Modal{roomjson['RoomOccupancy'][index]['ESPId']}\" class=\"btn btn-light\">{roomjson['RoomOccupancy'][index]['ESPId']}</button>"
         occuchecker = roomjson['RoomOccupancy'][index]["Occupants"]>0
         occulayout = f"</th><td>{occuchecker!s}</td></tr>"
         startlayout = f"{startlayout} {buttonlayout} {occulayout}"
-        
-    return startlayout     
+    startlayout = f"{startlayout}  </tbody> </table>"
+    for index in range(len(roomjson["RoomOccupancy"])):
+        startmodallayout = f"<div class=\"modal fade\" id=\"Modal{roomjson['RoomOccupancy'][index]['ESPId']}\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Modal{roomjson['RoomOccupancy'][index]['ESPId']}Title\" aria-hidden=\"true\">"    
+        headmodallayout = f"<div class=\"modal-dialog modal-dialog-centered\" role=\"document\"> <div class=\"modal-content\"> <div class=\"modal-header\"> <h5 class=\"modal-title\" id=\"Modal{roomjson['RoomOccupancy'][index]['ESPId']}Title\">{roomjson['RoomOccupancy'][index]['ESPId']}</h5> <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>"
+        bodymodallayout = f"<div class=\"modal-body\">...</div><div class=\"modal-footer\"></div></div></div></div>"
+        startlayout = f"{startlayout} {startmodallayout} {headmodallayout} {bodymodallayout}"
+    return startlayout   
+
+  
 dicttesting =  {
     "RoomOccupancy": [
         {"ESPId":"testId0","Occupants":2,"TimeSinceLast": None},
