@@ -46,8 +46,23 @@
     <script type='text/javascript'>
         $(document).on('submit','#MQTT-form',function(e)
         {
-           console.log("MQTT-form")
-           e.preventDefault();
+            console.log('hello');
+            e.preventDefault();
+            $.ajax({
+                type:'POST',
+                url:'/settingsMQTT',
+                data:{
+                    mqtt_host:$("#MQTTHost").val(),
+                    mqtt_port:$("#MQTTPort").val(),
+                    mqtt_user:$("#MQTTUser").val(),
+                    mqtt_pass:$("#MQTTPass").val(),
+                },
+                success:function(response)
+                {
+                    console.log('saved');
+                    console.log(response)
+                }
+            })
         });
         $(document).on('submit','#WIFI-form',function(e)
         {
