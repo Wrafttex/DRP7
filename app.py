@@ -8,13 +8,25 @@ import json
 app = Flask(__name__)
 CORS(app)
 redis_cache = redis.Redis(host="redis",port=6379,decode_responses=True)
-print(redis_cache.ping())
+
 def defaultsettings(dictonary):
     for key in list(dictonary.keys()):
         if dictonary[key] == "":
             dictonary[key]=redis_cache.get(key)
     return dictonary
-            
+
+def espGridLayout():
+    tableclass ="table table-hover"
+    thscope = "<th scope=\"col\">"
+    startlayout = f" <table class=\"{tableclass}\"> <thead> <tr> {thscope}ESP Name</th> {thscope}Occupancy detection</th></tr></thead><tbody>"
+    roomjson = redis_cache.json().get("room")
+    for index in range(len(roomjson["RoomOccupancy"])):
+        buttonlayout = f"<tr><th scope=\"row\"><button type=\"button\" data-toggle=\"modal\" data-target=\"\#modal{roomjson['RoomOccupancy'][index]['ESPId']}\" class=\"btn btn-light\">{roomjson['RoomOccupancy'][index]['ESPId']}</button>"
+        occuchecker = roomjson['RoomOccupancy'][index]["Occupants"]>0
+        occulayout = f"</th><td>{occuchecker!s}</td></tr>"
+        startlayout = f"{startlayout} {buttonlayout} {occulayout}"
+        
+    return startlayout     
 dicttesting =  {
     "RoomOccupancy": [
         {"ESPId":"testId0","Occupants":2,"TimeSinceLast": None},
@@ -25,8 +37,9 @@ dicttesting =  {
         {"ESPId":"testId5","Occupants":0,"TimeSinceLast": "14:15"}
     ]
 }
-redis_cache.json().set('room',"$",dicttesting)
-print(redis_cache.json().get("room"))   
+redis_cache.json().set('room',".",dicttesting)
+print(redis_cache.json().get("room")) 
+print(len(redis_cache.json().get("room")["RoomOccupancy"]))  
 #app.config['MQTT_BROKER_URL'] = "localhost"
 #app.config['MQTT_BROKER_PORT'] = 1883
 #app.config['MQTT_USERNAME'] = "TestUser"
@@ -110,7 +123,7 @@ def home():
 
 @app.route("/index")
 def index():
-    return render_template("index.html")
+    return render_template("index.html",esp=espGridLayout())
 
 @app.route("/setting",methods=["GET","POST"])
 def settings():
