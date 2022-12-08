@@ -9,7 +9,13 @@ app = Flask(__name__)
 CORS(app)
 redis_cache = redis.Redis(host="redis",port=6379,decode_responses=True)
 print(redis_cache.ping())
-
+def defaultsettings(dictonary):
+    for key in list(dictonary.keys()):
+        if dictonary[key] == "":
+            dictonary[key]=redis_cache.get(key)
+    return dictonary
+            
+    
 #app.config['MQTT_BROKER_URL'] = "localhost"
 #app.config['MQTT_BROKER_PORT'] = 1883
 #app.config['MQTT_USERNAME'] = "TestUser"
@@ -77,9 +83,9 @@ def esp_flash():
 @app.route("/testingurl",methods=["POST"])
 def testingurl():
     espdata = request.form.to_dict()
-    f = open("testing.txt","w")
-    f.write(str(espdata))
-    f.close()
+    print(espdata)
+    espdata=defaultsettings(dictonary=espdata)
+    print(espdata)
     mainspiffs(espdata["ssid"],espdata["wifi_pass"],espdata["mqtt_host"],espdata["mqtt_port"],espdata["mqtt_user"],espdata["mqtt_pass"])
     return espdata,200
 
