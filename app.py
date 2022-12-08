@@ -15,7 +15,18 @@ def defaultsettings(dictonary):
             dictonary[key]=redis_cache.get(key)
     return dictonary
             
-    
+dicttesting =  {
+    "RoomOccupancy": [
+        {"ESPId":"testId0","Occupants":2,"TimeSinceLast": None},
+        {"ESPId":"testId1","Occupants":3,"TimeSinceLast": None},
+        {"ESPId":"testId2","Occupants":1,"TimeSinceLast": None},
+        {"ESPId":"testId3","Occupants":5,"TimeSinceLast": None},
+        {"ESPId":"testId4","Occupants":0,"TimeSinceLast": "13:50"},
+        {"ESPId":"testId5","Occupants":0,"TimeSinceLast": "14:15"}
+    ]
+}
+redis_cache.json().set('room',"$",dicttesting)
+print(redis_cache.json().get("room"))   
 #app.config['MQTT_BROKER_URL'] = "localhost"
 #app.config['MQTT_BROKER_PORT'] = 1883
 #app.config['MQTT_USERNAME'] = "TestUser"

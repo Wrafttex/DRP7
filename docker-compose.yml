@@ -9,7 +9,7 @@ services:
       - "8000:5000"
 
   redis:
-    image: "redis:alpine"
+    image: "redis/redis-stack:latest"
     ports:
     - "6379:6379"
 
