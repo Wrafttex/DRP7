@@ -3,8 +3,11 @@ services:
   web:
     container_name: hub
     build: ./hub
+    volumes:
+      - ./certs:/code/certs
     ports:
       - "8000:5000"
+      - "443:443"
 
   redis:
     image: "redis:alpine"

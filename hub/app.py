@@ -57,6 +57,6 @@ def publish_message(msg):
 def home():
     return render_template("home.html", topic=topic, publications="")
 
-if __name__ == "__main__":
-    #runConnect()
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     #runConnect()
+#     app.run(debug=True)
