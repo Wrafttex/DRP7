@@ -29,8 +29,14 @@ def espGridLayout():
     for index in range(len(roomjson["RoomOccupancy"])):
         startmodallayout = f"<div class=\"modal fade\" id=\"Modal{roomjson['RoomOccupancy'][index]['ESPId']}\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Modal{roomjson['RoomOccupancy'][index]['ESPId']}Title\" aria-hidden=\"true\">"    
         headmodallayout = f"<div class=\"modal-dialog modal-dialog-centered\" role=\"document\"> <div class=\"modal-content\"> <div class=\"modal-header\"> <h5 class=\"modal-title\" id=\"Modal{roomjson['RoomOccupancy'][index]['ESPId']}Title\">{roomjson['RoomOccupancy'][index]['ESPId']}</h5> <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>"
-        bodymodallayout = f"<div class=\"modal-body\">...</div><div class=\"modal-footer\"></div></div></div></div>"
-        startlayout = f"{startlayout} {startmodallayout} {headmodallayout} {bodymodallayout}"
+        bodymodalstarterlayout = f"<div class=\"modal-body\"><table class=\"table\"><thead><tr><th scope=\"col\">param</th><th scope=\"col\">Value</th></tr></thead><tbody>"
+        
+        for contentkey in roomjson["RoomOccupancy"][index].keys():
+            bodymodalcontentlayout = f"<tr><th scope=\"row\">{contentkey}</th><td>{roomjson['RoomOccupancy'][index][contentkey]}</td></tr><tr>"
+            bodymodalstarterlayout = f"{bodymodalstarterlayout} {bodymodalcontentlayout}"
+        footermodallayout = f"</tbody></table></div><div class=\"modal-footer\"></div></div></div></div>"
+        startlayout = f"{startlayout} {startmodallayout} {headmodallayout} {bodymodalstarterlayout} {footermodallayout}"
+    
     return startlayout   
 
   
@@ -44,9 +50,10 @@ dicttesting =  {
         {"ESPId":"testId5","Occupants":0,"TimeSinceLast": "14:15"}
     ]
 }
+
 redis_cache.json().set('room',".",dicttesting)
 print(redis_cache.json().get("room")) 
-print(len(redis_cache.json().get("room")["RoomOccupancy"]))  
+print(len(redis_cache.json().get("room")["RoomOccupancy"]),len(dicttesting["RoomOccupancy"][0].keys()))  
 #app.config['MQTT_BROKER_URL'] = "localhost"
 #app.config['MQTT_BROKER_PORT'] = 1883
 #app.config['MQTT_USERNAME'] = "TestUser"
