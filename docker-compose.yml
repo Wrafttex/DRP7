@@ -5,6 +5,7 @@ services:
     build: ./hub
     volumes:
       - ./certs:/code/certs
+      # openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
     ports:
       - "8000:5000"
       - "443:443"
