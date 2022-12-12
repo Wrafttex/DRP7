@@ -2,16 +2,22 @@ version: "3.9"
 services:
   web:
     build: .
+    environment:
+      - PYTHONUNBUFFERED=1
+
     ports:
       - "8000:5000"
+
   redis:
-    image: "redis:alpine"
+    image: "redis/redis-stack:latest"
+    ports:
+    - "6379:6379"
 
   mosquitto:
     image: eclipse-mosquitto:latest
     container_name: mosquitto
     volumes:
-       - ./mosquitto:/mosquitto
+      - ./mosquitto:/mosquitto
     ports:
       - 1883:1883
       - 9001:9001
