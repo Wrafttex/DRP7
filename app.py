@@ -5,6 +5,7 @@ from flask_cors import CORS
 from paho.mqtt import client as mqtt_client
 from mainspiffs import mainspiffs
 import json
+from frontpagelayout import esptableLayout, espdivLayout
 app = Flask(__name__)
 CORS(app)
 redis_cache = redis.Redis(host="redis",port=6379,decode_responses=True)
@@ -15,29 +16,7 @@ def defaultsettings(dictonary):
             dictonary[key]=redis_cache.get(key)
     return dictonary
 
-def espGridLayout():
-    tableclass ="table table-hover"
-    thscope = "<th scope=\"col\">"
-    startlayout = f" <table class=\"{tableclass}\"> <thead> <tr> {thscope}ESP Name</th> {thscope}Occupancy detection</th></tr></thead><tbody>"
-    roomjson = redis_cache.json().get("room")
-    for index in range(len(roomjson["RoomOccupancy"])):
-        buttonlayout = f"<tr><th scope=\"row\"><button type=\"button\" data-toggle=\"modal\" data-target=\"#Modal{roomjson['RoomOccupancy'][index]['ESPId']}\" class=\"btn btn-light\">{roomjson['RoomOccupancy'][index]['ESPId']}</button>"
-        occuchecker = roomjson['RoomOccupancy'][index]["Occupants"]>0
-        occulayout = f"</th><td>{occuchecker!s}</td></tr>"
-        startlayout = f"{startlayout} {buttonlayout} {occulayout}"
-    startlayout = f"{startlayout}  </tbody> </table>"
-    for index in range(len(roomjson["RoomOccupancy"])):
-        startmodallayout = f"<div class=\"modal fade\" id=\"Modal{roomjson['RoomOccupancy'][index]['ESPId']}\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Modal{roomjson['RoomOccupancy'][index]['ESPId']}Title\" aria-hidden=\"true\">"    
-        headmodallayout = f"<div class=\"modal-dialog modal-dialog-centered\" role=\"document\"> <div class=\"modal-content\"> <div class=\"modal-header\"> <h5 class=\"modal-title\" id=\"Modal{roomjson['RoomOccupancy'][index]['ESPId']}Title\">{roomjson['RoomOccupancy'][index]['ESPId']}</h5> <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>"
-        bodymodalstarterlayout = f"<div class=\"modal-body\"><table class=\"table\"><thead><tr><th scope=\"col\">param</th><th scope=\"col\">Value</th></tr></thead><tbody>"
-        
-        for contentkey in roomjson["RoomOccupancy"][index].keys():
-            bodymodalcontentlayout = f"<tr><th scope=\"row\">{contentkey}</th><td>{roomjson['RoomOccupancy'][index][contentkey]}</td></tr><tr>"
-            bodymodalstarterlayout = f"{bodymodalstarterlayout} {bodymodalcontentlayout}"
-        footermodallayout = f"</tbody></table></div><div class=\"modal-footer\"></div></div></div></div>"
-        startlayout = f"{startlayout} {startmodallayout} {headmodallayout} {bodymodalstarterlayout} {footermodallayout}"
-    
-    return startlayout   
+
 
   
 dicttesting =  {
@@ -47,7 +26,18 @@ dicttesting =  {
         {"ESPId":"testId2","Occupants":1,"TimeSinceLast": None},
         {"ESPId":"testId3","Occupants":5,"TimeSinceLast": None},
         {"ESPId":"testId4","Occupants":0,"TimeSinceLast": "13:50"},
-        {"ESPId":"testId5","Occupants":0,"TimeSinceLast": "14:15"}
+        {"ESPId":"testId5","Occupants":0,"TimeSinceLast": "14:15"},
+        {"ESPId":"testId6","Occupants":0,"TimeSinceLast": "14:15"},
+        {"ESPId":"testId7","Occupants":0,"TimeSinceLast": "14:15"},
+        {"ESPId":"testId8","Occupants":0,"TimeSinceLast": "14:15"},
+        {"ESPId":"testId9","Occupants":0,"TimeSinceLast": "14:15"},
+        {"ESPId":"testId10","Occupants":0,"TimeSinceLast": "14:15"},
+        {"ESPId":"testId11","Occupants":0,"TimeSinceLast": "14:15"},
+        {"ESPId":"testId12","Occupants":0,"TimeSinceLast": "14:15"},
+        {"ESPId":"testId13","Occupants":0,"TimeSinceLast": "14:15"},
+        {"ESPId":"testId14","Occupants":0,"TimeSinceLast": "14:15"},
+        {"ESPId":"testId15","Occupants":0,"TimeSinceLast": "14:15"},
+        {"ESPId":"testId16","Occupants":0,"TimeSinceLast": "14:15"},
     ]
 }
 
@@ -127,17 +117,15 @@ def testingurl():
     mainspiffs(espdata["ssid"],espdata["wifi_pass"],espdata["mqtt_host"],espdata["mqtt_port"],espdata["mqtt_user"],espdata["mqtt_pass"])
     return espdata,200
 
-@app.route("/esp_base")
-def esp_base():
-    return render_template("base_flash.html")
+
+# @app.route("/")
+# def home():
+#     return render_template("home.html", topic=topic, publications="")
 
 @app.route("/")
-def home():
-    return render_template("home.html", topic=topic, publications="")
-
-@app.route("/index")
 def index():
-    return render_template("index.html",esp=espGridLayout())
+    roomjson = redis_cache.json().get("room")
+    return render_template("index.html",esp=espdivLayout(roomjson))
 
 @app.route("/setting",methods=["GET","POST"])
 def settings():
