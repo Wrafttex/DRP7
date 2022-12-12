@@ -118,3 +118,35 @@
 1669946161: Saving in-memory database to /mosquitto/data//mosquitto.db.
 1669947962: Saving in-memory database to /mosquitto/data//mosquitto.db.
 1669949763: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1670854532: mosquitto version 2.0.15 starting
+1670854532: Config loaded from /mosquitto/config/mosquitto.conf.
+1670854532: Opening ipv4 listen socket on port 1883.
+1670854532: Opening ipv6 listen socket on port 1883.
+1670854532: mosquitto version 2.0.15 running
+1670854690: New connection from 172.20.0.1:45758 on port 1883.
+1670854690: New client connected from 172.20.0.1:45758 as HubSubcribe (p2, c1, k60, u'TestUser').
+1670854693: Client HubSubcribe closed its connection.
+1670854886: mosquitto version 2.0.15 terminating
+1670854886: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1670854941: mosquitto version 2.0.15 starting
+1670854941: Config loaded from /mosquitto/config/mosquitto.conf.
+1670854941: Opening ipv4 listen socket on port 1883.
+1670854941: Opening ipv6 listen socket on port 1883.
+1670854941: mosquitto version 2.0.15 running
+1670855023: New connection from 172.20.0.1:45874 on port 1883.
+1670855023: New client connected from 172.20.0.1:45874 as BleTestDevice (p2, c1, k60, u'TestUser').
+1670855030: Client BleTestDevice closed its connection.
+1670855049: mosquitto version 2.0.15 terminating
+1670855049: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1670855109: mosquitto version 2.0.15 starting
+1670855109: Config loaded from /mosquitto/config/mosquitto.conf.
+1670855109: Opening ipv4 listen socket on port 1883.
+1670855109: Opening ipv6 listen socket on port 1883.
+1670855109: mosquitto version 2.0.15 running
+1670855199: mosquitto version 2.0.15 terminating
+1670855199: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1670855312: mosquitto version 2.0.15 starting
+1670855312: Config loaded from /mosquitto/config/mosquitto.conf.
+1670855312: Opening ipv4 listen socket on port 1883.
+1670855312: Opening ipv6 listen socket on port 1883.
+1670855312: mosquitto version 2.0.15 running

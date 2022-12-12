@@ -25,7 +25,7 @@ currentData =  {
 
 def processData():
     #while True:
-    rawData = open("data.txt", "r").readlines()
+    rawData = open("Hub/data.txt", "r").readlines()
     formatedData = []
 
     for row in rawData:

@@ -6,7 +6,7 @@ services:
       - PYTHONUNBUFFERED=1
 
     ports:
-      - "8000:5000"
+      - "9000:5000"
 
   redis:
     image: "redis/redis-stack:latest"
