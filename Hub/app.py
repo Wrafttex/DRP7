@@ -115,7 +115,7 @@ def testingurl():
     print(espdata)
     espdata=defaultsettings(dictonary=espdata)
     print(espdata)
-    mainspiffs(espdata["ssid"],espdata["wifi_pass"],espdata["mqtt_host"],espdata["mqtt_port"],espdata["mqtt_user"],espdata["mqtt_pass"])
+    mainspiffs(espdata["room_name"],espdata["ssid"],espdata["wifi_pass"],espdata["mqtt_host"],espdata["mqtt_port"],espdata["mqtt_user"],espdata["mqtt_pass"])
     return espdata,200
 
 

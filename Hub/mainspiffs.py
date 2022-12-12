@@ -9,7 +9,7 @@ SPIFFS_BLOCK_IX_LEN = 2  # spiffs_block_ix
 
 BASE_DIR = "data"
 
-def make_spiffs(output_file="./static/ESP_DATA/spiffs.bin",
+def make_spiffs(output_file="./Hub/static/ESP_DATA/spiffs.bin",
                 image_size="0xf000",
                 page_size=256,
                 block_size=4096,
@@ -42,10 +42,12 @@ def make_spiffs(output_file="./static/ESP_DATA/spiffs.bin",
 
         image_file.write(image)
 
-def mainspiffs(ssid:str, wifi_pass: str, mqtt_host: str, mqtt_port: int, mqtt_user: str, mqtt_pass: str):
+def mainspiffs(room_name:str, ssid:str, wifi_pass: str, mqtt_host: str, mqtt_port: int, mqtt_user: str, mqtt_pass: str):
 
     if not os.path.exists(BASE_DIR):
         os.mkdir(BASE_DIR)
+    with open(BASE_DIR + "/room_name", 'w') as room_name:
+        room_name.write(ssid)
 
     with open(BASE_DIR + "/wifi-ssid", 'w') as wifiSsid:
         wifiSsid.write(ssid)

@@ -13,15 +13,18 @@
                     <h4>Custom Settings</h4>
                     <br>
                     <div class="form-group">
+                        <label for="room_name">Room Name</label>
+                        <input type="text" class="form-control" id="room_name" placeholder="">
+                    </div>
+                    <div class="form-group">
                       <label for="SSID">SSID</label>
                       <input type="text" class="form-control" id="SSID" placeholder="network_2.4GHz">
                     </div>
                     <div class="form-group">
-                      <label for="wifi_pass">WIFI Passowrd </label>
+                      <label for="wifi_pass">WIFI Passowrd</label>
                       <input type="text" class="form-control" id="wifi_pass" placeholder="Another input">
                     </div>
                     <div class="form-group">
-    
                         <label for="MQTTHost">MQTT Host</label>
                         <input type="text" class="form-control" id="MQTTHost" placeholder="127.0.0.1">
                       </div>
@@ -60,6 +63,7 @@
                     type:'POST',
                     url:'/testingurl',
                     data:{
+                        room_name:$("#room_name").val(),
                         ssid:$("#SSID").val(),
                         wifi_pass:$("#wifi_pass").val(),
                         mqtt_host:$("#MQTTHost").val(),
