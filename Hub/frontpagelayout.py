@@ -34,6 +34,7 @@ def espdivLayout(roomjson):
     for index in range(len(roomjson["RoomOccupancy"])):
         roomid = str(roomjson['RoomOccupancy'][index]['ESPId']).split("/")[-1]
         colorcondition = "green" if roomjson['RoomOccupancy'][index]["Occupants"] > 0 else "red"
+        
         dotclass = f'style=\"height: 35px; width: 35px!important; background-color: {colorcondition}; border-radius:50%; display:inline-block;text-align:right;\"'
         outerdiv = f"<div class=\"{outerdivclass}\">"
         innerdiv = f"<div class=\"{innerdivclass}\"><h5 class=\"col pl-0 mt-1 ml-1\"><button type=\"button\" data-toggle=\"modal\" data-target=\"#Modal{roomid}\" class=\"btn btn-secondary\">{roomid}</button> </h5> <span class=\"col-auto ml-auto mr-1 mb-1\" {dotclass}></span></div></div>"
