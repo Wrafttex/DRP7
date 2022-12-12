@@ -2,45 +2,56 @@
 
     {%block content %}
     <body>
-        <!-- def mainspiffs(ssid:str, wifi_pass: str, mqtt_host: str, mqtt_port: int, mqtt_user: str, mqtt_pass: str): -->
-        <h1>ESP-Web-Tool-Test</h1>
-        <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script><!-- #TODO hidden="true"-->
-        <esp-web-install-button id="installButton" manifest="{{ url_for('static',filename='ESP_DATA/manifest.json') }}"></esp-web-install-button>
-        <h1>testing</h1>
-        <form  method="post" id="flash-form">
-            <label for="ssid">SSID</label>
-            <br>
-            <input type="text" name="ssid"
-                        placeholder="wifi name" id="ssid">
-            <br>
+        
+        <div class ="form-row mx-auto" >
+            <div class ="form-group mx-auto mt-1">
+                <h1>ESP-Web-Tool-Test</h1>
+                <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script><!-- #TODO hidden="true"-->
+                <esp-web-install-button id="installButton" manifest="{{ url_for('static',filename='ESP_DATA/manifest.json') }}" hidden="true"></esp-web-install-button>
+        
+                <form method="post" id="flash-form">
+                    <h4>Custom Settings</h4>
+                    <br>
+                    <div class="form-group">
+                      <label for="SSID">SSID</label>
+                      <input type="text" class="form-control" id="SSID" placeholder="network_2.4GHz">
+                    </div>
+                    <div class="form-group">
+                      <label for="wifi_pass">WIFI Passowrd </label>
+                      <input type="text" class="form-control" id="wifi_pass" placeholder="Another input">
+                    </div>
+                    <div class="form-group">
     
-            <label for="wifi_pass">WIFI password</label>
-            <br>
-            <input type="text" name="wifi_pass" id="wifi_pass"
-                        placeholder="wifi password">
-            <br>
-            <label for="mqtt_host">mqtt host</label>
-            <br>
-            <input type="text" name="mqtt_host" id="mqtt_host">
-            <br>
-            <label for="mqtt_port">mqtt port</label>
-            <br>
-            <input type="number" name="mqtt_port" id="mqtt_port">
-            <br>
-            <label for="mqtt_user">mqtt user</label>
-            <br>
-            <input type="text" name="mqtt_user" id="mqtt_user">
-            <br>
-            <label for="mqtt_pass">mqtt pass</label>
-            <br>
-            <input type="text" name="mqtt_pass" id="mqtt_pass">
-            <br>
-            <button type="submit">Submit</button>          
-        </form>
+                        <label for="MQTTHost">MQTT Host</label>
+                        <input type="text" class="form-control" id="MQTTHost" placeholder="127.0.0.1">
+                      </div>
+                      <div class="form-group">
+                        <label for="MQTTPort">MQTT Port</label>
+                        <input type="number" class="form-control" id="MQTTPort" placeholder="1883">
+                      </div>
+                      <div class="form-group">
+                          <label for="MQTTUser">MQTT Username</label>
+                          <input type="text" class="form-control" id="MQTTUser" placeholder="user">
+                      </div>
+                      <div class="form-group">
+                      <label for="MQTTPass">MQTT Password</label>
+                      <input type="text" class="form-control" id="MQTTPass" placeholder="pass123">
+                      </div>
+                    <button type="submit" class="btn btn-primary">Submit</button> 
+                  </form>
+            </div>
+        </div>
     
         <script src="{{ url_for('static',filename='scripts/js/jquery-3.6.1.js') }}"></script>
     
         <script type='text/javascript'>
+            var localesp = {{espdata | safe}}
+            $("#SSID").attr("placeholder",localesp[0])
+            $("#wifi_pass").attr("placeholder",localesp[1])
+            $("#MQTTHost").attr("placeholder",localesp[2])
+            $("#MQTTPort").attr("placeholder",localesp[3])
+            $("#MQTTUser").attr("placeholder",localesp[4])
+            $("#MQTTPass").attr("placeholder",localesp[5])
             $(document).on('submit','#flash-form',function(e)
             {
                 console.log('hello');
@@ -49,18 +60,17 @@
                     type:'POST',
                     url:'/testingurl',
                     data:{
-                        ssid:$("#ssid").val(),
+                        ssid:$("#SSID").val(),
                         wifi_pass:$("#wifi_pass").val(),
-                        mqtt_host:$("#mqtt_host").val(),
-                        mqtt_port:$("#mqtt_port").val(),
-                        mqtt_user:$("#mqtt_user").val(),
-                        mqtt_pass:$("#mqtt_pass").val(),
-        
+                        mqtt_host:$("#MQTTHost").val(),
+                        mqtt_port:$("#MQTTPort").val(),
+                        mqtt_user:$("#MQTTUser").val(),
+                        mqtt_pass:$("#MQTTPass").val(),        
                     },
                     success:function(response)
                     {
                         console.log('saved');
-                        
+                        $("#installButton").removeAttr("hidden")
                         console.log(response)
                     }
                 })

@@ -104,9 +104,10 @@ def data():
     if request.method == "GET":
         return {"test":"hello"}
     return "okay",200
+
 @app.route("/esp_flash")
 def esp_flash():
-    return render_template("flash.html")
+    return render_template("flash.html",espdata=redis_cache.mget("ssid","wifi_pass","mqtt_host","mqtt_port","mqtt_user","mqtt_pass"))
 
 @app.route("/testingurl",methods=["POST"])
 def testingurl():
