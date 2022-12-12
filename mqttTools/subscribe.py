@@ -21,12 +21,18 @@ def connect_mqtt():
     return client
 
 def subscribe(client: mqtt_client):
+    f = open("./data.csv", "a")
     def on_message(client, userdata, msg):
-        print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+        #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+        f = open("./data.csv", "a")
+        #print([msg.payload.decode(), msg.topic])
+        f.write(str(msg.payload.decode())[:-1] + ", 'roomId': '" + str(msg.topic) + "'}" + "\n")
+        f.close()
         return msg.payload.decode()
 
     client.subscribe(topic)
     client.on_message = on_message
+    
 
 def run():
     client = connect_mqtt()

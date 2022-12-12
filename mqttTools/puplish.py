@@ -34,7 +34,7 @@ def publish(client, msg):
 def run():
     client = connect_mqtt()
     client.loop_start()
-    publish(client, "Test123")
+    publish(client, str({"id":"244b03d72780","idType":55,"rssi@1m":-71,"rssi":-84,"raw":2.35,"distance":2.25,"speed":0.02,"mac":"244b03d72780","interval":615}))
 
 if __name__ == '__main__':
     run()

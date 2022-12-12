@@ -1,0 +1,120 @@
+1669898462: mosquitto version 2.0.15 starting
+1669898462: Config loaded from /mosquitto/config/mosquitto.conf.
+1669898462: Error: Invalid password hash type for user TestUser, removing entry.
+1669898462: Opening ipv4 listen socket on port 1883.
+1669898462: Opening ipv6 listen socket on port 1883.
+1669898462: mosquitto version 2.0.15 running
+1669898511: New connection from 172.20.0.1:39706 on port 1883.
+1669898512: Client HubSubcribe disconnected, not authorised.
+1669898513: New connection from 172.20.0.1:39710 on port 1883.
+1669898513: Client HubSubcribe disconnected, not authorised.
+1669898515: New connection from 172.20.0.1:39714 on port 1883.
+1669898515: Client HubSubcribe disconnected, not authorised.
+1669898519: New connection from 172.20.0.1:39718 on port 1883.
+1669898519: Client HubSubcribe disconnected, not authorised.
+1669898539: mosquitto version 2.0.15 terminating
+1669898539: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669898915: mosquitto version 2.0.15 starting
+1669898915: Config loaded from /mosquitto/config/mosquitto.conf.
+1669898915: Error: Invalid password hash type for user TestUser, removing entry.
+1669898915: Opening ipv4 listen socket on port 1883.
+1669898915: Opening ipv6 listen socket on port 1883.
+1669898915: mosquitto version 2.0.15 running
+1669898920: New connection from 172.20.0.1:39722 on port 1883.
+1669898920: Client HubSubcribe disconnected, not authorised.
+1669898921: New connection from 172.20.0.1:39726 on port 1883.
+1669898921: Client HubSubcribe disconnected, not authorised.
+1669898923: New connection from 172.20.0.1:39730 on port 1883.
+1669898923: Client HubSubcribe disconnected, not authorised.
+1669898927: New connection from 172.20.0.1:39734 on port 1883.
+1669898927: Client HubSubcribe disconnected, not authorised.
+1669898935: New connection from 172.20.0.1:39738 on port 1883.
+1669898935: Client HubSubcribe disconnected, not authorised.
+1669898979: mosquitto version 2.0.15 terminating
+1669898979: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669899010: mosquitto version 2.0.15 starting
+1669899010: Config loaded from /mosquitto/config/mosquitto.conf.
+1669899010: Error: Invalid password hash type for user TestUser, removing entry.
+1669899010: Opening ipv4 listen socket on port 1883.
+1669899010: Opening ipv6 listen socket on port 1883.
+1669899010: mosquitto version 2.0.15 running
+1669899014: New connection from 172.20.0.1:39742 on port 1883.
+1669899014: Client HubSubcribe disconnected, not authorised.
+1669899015: New connection from 172.20.0.1:39746 on port 1883.
+1669899015: Client HubSubcribe disconnected, not authorised.
+1669899017: New connection from 172.20.0.1:39750 on port 1883.
+1669899017: Client HubSubcribe disconnected, not authorised.
+1669899071: New connection from 172.20.0.1:39754 on port 1883.
+1669899071: Client HubSubcribe disconnected, not authorised.
+1669899072: New connection from 172.20.0.1:39758 on port 1883.
+1669899072: Client HubSubcribe disconnected, not authorised.
+1669899074: New connection from 172.20.0.1:39762 on port 1883.
+1669899074: Client HubSubcribe disconnected, not authorised.
+1669900811: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669902612: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669902765: mosquitto version 2.0.15 terminating
+1669902765: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669902807: mosquitto version 2.0.15 starting
+1669902807: Config loaded from /mosquitto/config/mosquitto.conf.
+1669902807: Error: Invalid password hash type for user TestUser, removing entry.
+1669902807: Opening ipv4 listen socket on port 1883.
+1669902807: Opening ipv6 listen socket on port 1883.
+1669902807: mosquitto version 2.0.15 running
+1669902825: New connection from 172.20.0.1:39766 on port 1883.
+1669902825: Client HubSubcribe disconnected, not authorised.
+1669902826: New connection from 172.20.0.1:39770 on port 1883.
+1669902826: Client HubSubcribe disconnected, not authorised.
+1669902837: New connection from 172.20.0.1:39774 on port 1883.
+1669902838: Client BleTestDevice disconnected, not authorised.
+1669902839: New connection from 172.20.0.1:39778 on port 1883.
+1669902839: Client BleTestDevice disconnected, not authorised.
+1669902854: mosquitto version 2.0.15 terminating
+1669902854: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669902872: mosquitto version 2.0.15 starting
+1669902872: Config loaded from /mosquitto/config/mosquitto.conf.
+1669902872: Error: Invalid password hash type for user TestUser, removing entry.
+1669902872: Opening ipv4 listen socket on port 1883.
+1669902872: Opening ipv6 listen socket on port 1883.
+1669902872: mosquitto version 2.0.15 running
+1669902891: New connection from 172.20.0.1:39782 on port 1883.
+1669902891: Client BleTestDevice disconnected, not authorised.
+1669902892: New connection from 172.20.0.1:39786 on port 1883.
+1669902892: Client BleTestDevice disconnected, not authorised.
+1669902894: New connection from 172.20.0.1:39790 on port 1883.
+1669902894: Client BleTestDevice disconnected, not authorised.
+1669902919: mosquitto version 2.0.15 terminating
+1669902919: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669902937: mosquitto version 2.0.15 starting
+1669902937: Config loaded from /mosquitto/config/mosquitto.conf.
+1669902937: Opening ipv4 listen socket on port 1883.
+1669902937: Opening ipv6 listen socket on port 1883.
+1669902937: mosquitto version 2.0.15 running
+1669902944: New connection from 172.20.0.1:39794 on port 1883.
+1669902944: New client connected from 172.20.0.1:39794 as HubSubcribe (p2, c1, k60, u'TestUser').
+1669903039: Client HubSubcribe has exceeded timeout, disconnecting.
+1669904738: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669906539: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669908340: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669910141: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669911942: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669913743: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669915544: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669917345: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669919146: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669920947: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669922748: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669924549: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669926350: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669928151: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669929952: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669931753: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669933554: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669935355: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669937156: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669938957: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669940758: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669942559: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669944360: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669946161: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669947962: Saving in-memory database to /mosquitto/data//mosquitto.db.
+1669949763: Saving in-memory database to /mosquitto/data//mosquitto.db.
