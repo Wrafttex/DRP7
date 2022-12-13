@@ -1,11 +1,8 @@
 import redis
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 from flask_cors import CORS
-#from flask_mqtt import Mqtt
-from paho.mqtt import client as mqtt_client
 from mainspiffs import mainspiffs
-import json
-from frontpagelayout import esptableLayout, espdivLayout
+from frontpagelayout import espdivLayout
 app = Flask(__name__)
 CORS(app)
 redis_cache = redis.Redis(host="redis",port=6379,decode_responses=True)
@@ -15,8 +12,6 @@ def defaultsettings(dictonary):
         if dictonary[key] == "":
             dictonary[key]=redis_cache.get(key)
     return dictonary
-
-
 
   
 dicttesting =  {
@@ -42,8 +37,6 @@ dicttesting =  {
 }
 
 redis_cache.json().set('room',".",dicttesting)
-print(redis_cache.json().get("room")) 
-print(len(redis_cache.json().get("room")["RoomOccupancy"]),len(dicttesting["RoomOccupancy"][0].keys()))  
 #app.config['MQTT_BROKER_URL'] = "localhost"
 #app.config['MQTT_BROKER_PORT'] = 1883
 #app.config['MQTT_USERNAME'] = "TestUser"
@@ -60,37 +53,6 @@ username = "TestUser"
 password = "TestPassword"
 clientID = "HubSubcribe"
 
-def connect_mqtt():
-    def on_connect(client, userdata, flags, rc):
-        if rc == 0:
-            print("Connected to MQTT Broker!")
-        else:
-            print("Failed to connect, return code %d\n", rc)
-
-    client = mqtt_client.Client(clientID)
-    client.username_pw_set(username, password)
-    client.on_connect = on_connect
-    client.connect(broker, port)
-    return client
-
-
-def subscribe(client: mqtt_client):
-    def on_message(client, userdata, msg):
-        print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-        publish_message(msg.payload.decode())
-
-    client.subscribe(topic)
-    client.on_message = on_message
-
-def runConnect():
-    client = connect_mqtt()
-    subscribe(client)
-    client.loop_forever()
-
-
-@app.route("/updatePublications", methods=["POST"])
-def publish_message(msg):
-   return jsonify("", render_template("updatePublications.html", publications=msg))
 
 @app.route("/imagetesting",methods=["GET","POST"])
 def imagetest():
@@ -105,33 +67,40 @@ def data():
         return {"test":"hello"}
     return "okay",200
 
+def nonetoempty(obj):
+    emptylist = []
+    for local in obj:
+        if local == None:
+            emptylist.append("")
+        else:
+            emptylist.append(local)
+    return emptylist
+
+
 @app.route("/esp_flash")
 def esp_flash():
-    return render_template("flash.html",espdata=redis_cache.mget("ssid","wifi_pass","mqtt_host","mqtt_port","mqtt_user","mqtt_pass"))
+    return render_template("flash.html",espdata=nonetoempty(redis_cache.mget("ssid","wifi_pass","mqtt_host","mqtt_port","mqtt_user","mqtt_pass")))
 
-@app.route("/testingurl",methods=["POST"])
-def testingurl():
+
+@app.route("/customdata",methods=["POST","GET"])
+def customdata():
     espdata = request.form.to_dict()
-    print(espdata)
-    espdata=defaultsettings(dictonary=espdata)
-    print(espdata)
+    # espdata=defaultsettings(dictonary=espdata)
     mainspiffs(espdata["room_name"],espdata["ssid"],espdata["wifi_pass"],espdata["mqtt_host"],espdata["mqtt_port"],espdata["mqtt_user"],espdata["mqtt_pass"])
     return espdata,200
 
-
-# @app.route("/")
-# def home():
-#     return render_template("home.html", topic=topic, publications="")
 
 @app.route("/")
 def index():
     roomjson = redis_cache.json().get("room")
     return render_template("index.html",esp=espdivLayout(roomjson))
 
+
 @app.route("/setting",methods=["GET","POST"])
 def settings():
     if request.method == "GET":
         return render_template("settings.html")
+  
     
 @app.route("/settingsSave",methods=["POST"])
 def settingsSave():
@@ -139,11 +108,8 @@ def settingsSave():
         MQTT_Data = request.form.to_dict()
         redis_cache.mset(MQTT_Data)
         return "Settings saved",200
-    
 
 
-
-#TODO Get SSL to work
 if __name__ == "__main__":
     #runConnect()
     app.run(debug=True)

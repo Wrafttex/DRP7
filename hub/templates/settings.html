@@ -31,7 +31,8 @@
                   <label for="MQTTPass">MQTT Password</label>
                   <input type="text" class="form-control" id="MQTTPass" placeholder="pass123">
                   </div>
-                <button type="submit" class="btn btn-primary">Submit</button> 
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <h3 id="status"></h3> 
               </form>
         </div>
     </div>
@@ -56,6 +57,10 @@
                 {
                     console.log('saved');
                     console.log(response)
+                    $("#status").text("Succes!")
+                },
+                error:function(){
+                  $("#status").text("Error!")
                 }
             })
         });
