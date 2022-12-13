@@ -3,6 +3,10 @@ services:
   web:
     container_name: hub
     build: ./hub
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - "mosquitto"
     volumes:
       - ./certs:/code/certs
       # openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
@@ -24,3 +28,11 @@ services:
     ports:
       - 1883:1883
       - 9001:9001
+  
+  mqtthub:
+    container_name: mqtthub
+    build: ./mqttdir
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - "web"

@@ -92,6 +92,7 @@ def customdata():
 
 @app.route("/")
 def index():
+    print("testing")
     roomjson = redis_cache.json().get("room")
     return render_template("index.html",esp=espdivLayout(roomjson))
 
