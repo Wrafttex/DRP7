@@ -1,7 +1,7 @@
 from paho.mqtt import client as mqtt_client
 import time
 
-broker = "localhost"
+broker = "mosquitto"
 port = 1883
 topic = "espresense/rooms/BleTestDevice2"
 username = "TestUser"

@@ -3,7 +3,6 @@ from flask import Flask, render_template, request
 from flask_cors import CORS
 from mainspiffs import mainspiffs
 from frontpagelayout import espdivLayout
-import HubController
 app = Flask(__name__)
 from threading import Thread
 CORS(app)
