@@ -3,7 +3,9 @@ from flask import Flask, render_template, request
 from flask_cors import CORS
 from mainspiffs import mainspiffs
 from frontpagelayout import espdivLayout
+import HubController
 app = Flask(__name__)
+from threading import Thread
 CORS(app)
 redis_cache = redis.Redis(host="redis",port=6379,decode_responses=True)
 
@@ -37,6 +39,7 @@ dicttesting =  {
 }
 
 redis_cache.json().set('room',".",dicttesting)
+##Thread(target=HubController.test).start
 #app.config['MQTT_BROKER_URL'] = "localhost"
 #app.config['MQTT_BROKER_PORT'] = 1883
 #app.config['MQTT_USERNAME'] = "TestUser"
