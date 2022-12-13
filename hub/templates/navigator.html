@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel= "stylesheet" type="text/css" href= "{{ url_for('static',filename='scripts/bootstrap/css/bootstrap.min.css') }}">
+    </head>
+    <body>
+        <ul class="nav justify-content-center" style="background-color: aliceblue;">
+            <li class="nav-item">
+              <a class="nav-link active" href="/">home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/esp_flash">custom_flash</a>
+            </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/imagetesting">overview</a>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/setting">settings</a>
+            </li>
+          </ul>
+          <div>
+              {%block content %}
+              {%endblock%}
+          </div>
+
+
+
+        <script src="{{ url_for('static',filename='scripts/js/jquery-3.6.1.js') }}"></script>
+        <script src="{{ url_for('static',filename='scripts/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    </body>
+
+
+
+
+</html>
