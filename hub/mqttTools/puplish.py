@@ -3,7 +3,7 @@ import time
 
 broker = "localhost"
 port = 1883
-topic = "espresense/rooms/BleTestDevice"
+topic = "espresense/rooms/BleTestDevice2"
 username = "TestUser"
 password = "TestPassword"
 clientID = "BleTestDevice"
