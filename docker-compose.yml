@@ -1,12 +1,14 @@
 version: "3.9"
 services:
   web:
-    build: .
-    environment:
-      - PYTHONUNBUFFERED=1
-
+    container_name: hub
+    build: ./hub
+    volumes:
+      - ./certs:/code/certs
+      # openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
     ports:
       - "8000:5000"
+      - "443:443"
 
   redis:
     image: "redis/redis-stack:latest"
