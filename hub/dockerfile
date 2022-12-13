@@ -4,8 +4,10 @@ WORKDIR /code
 ENV FLASK_APP=hub/app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 COPY requirements.txt requirements.txt
+RUN apt-get install openssl
 RUN pip install -r requirements.txt
 EXPOSE 5000
 COPY . .
 # run ["python", "tests.py"]
+#RUN ["python", "HubController.py"]
 CMD ["gunicorn", "--certfile", "certs/cert.pem", "--keyfile", "certs/key.pem", "-b", "0.0.0.0:5000", "app:app"]
