@@ -5,13 +5,12 @@
         
         <div class ="form-row mx-auto" >
             <div class ="form-group mx-auto mt-1">
-                <h1>ESP-Web-Tool-Test</h1>
+                <h1>ESP Custom Flash Tool</h1>
                 <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script><!-- #TODO hidden="true"-->
                 <esp-web-install-button id="installButton" manifest="{{ url_for('static',filename='ESP_DATA/manifest.json') }}" hidden="true"></esp-web-install-button>
-        
+                <button id="disabledbutton" type="button" class="btn btn-danger" disabled>INSTALL</button>
                 <form method="post" id="flash-form">
-                    <h4>Custom Settings</h4>
-                    <br>
+                    <h4 class="my-3">Custom Settings</h4> 
                     <div class="form-group">
                         <label for="room_name">Room Name</label>
                         <input type="text" class="form-control" id="room_name" placeholder="">
@@ -41,6 +40,7 @@
                       <input type="text" class="form-control" id="MQTTPass" placeholder="pass123">
                       </div>
                     <button type="submit" class="btn btn-primary">Submit</button> 
+                    <h3 id="errormsg"></h3>
                   </form>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 e.preventDefault();
                 $.ajax({
                     type:'POST',
-                    url:'/testingurl',
+                    url:'/customdata',
                     data:{
                         room_name:$("#room_name").val(),
                         ssid:$("#SSID").val(),
@@ -73,9 +73,15 @@
                     },
                     success:function(response)
                     {
+
                         console.log('saved');
+                        $("#errormsg").text("")
+                        $("#disabledbutton").attr("hidden","true")
                         $("#installButton").removeAttr("hidden")
                         console.log(response)
+                    },
+                    error:function(){
+                        $("#errormsg").text("ERROR!")
                     }
                 })
             });

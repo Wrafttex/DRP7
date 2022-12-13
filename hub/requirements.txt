@@ -1,5 +1,4 @@
 flask
-flask-mqtt
 flask-cors
 redis
 paho-mqtt
