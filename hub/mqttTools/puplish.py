@@ -3,7 +3,7 @@ import time
 
 broker = "localhost"
 port = 1883
-topic = "test/topic"
+topic = "espresense/rooms/BleTestDevice"
 username = "TestUser"
 password = "TestPassword"
 clientID = "BleTestDevice"
@@ -23,7 +23,7 @@ def connect_mqtt():
 
 def publish(client, msg):
     while True:
-        time.sleep(1)
+        time.sleep(0.5)
         result = client.publish(topic, msg)
         status = result[0]
         if status == 0:

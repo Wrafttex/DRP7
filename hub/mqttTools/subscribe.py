@@ -1,8 +1,8 @@
 from paho.mqtt import client as mqtt_client
 
-broker = "localhost"
+broker = "mosquitto"
 port = 1883
-topic = "test/topic"
+topic = "espresense/rooms/+"
 username = "TestUser"
 password = "TestPassword"
 clientID = "HubSubcribe"
@@ -21,10 +21,9 @@ def connect_mqtt():
     return client
 
 def subscribe(client: mqtt_client):
-    f = open("./data.csv", "a")
     def on_message(client, userdata, msg):
         #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
-        f = open("./data.csv", "a")
+        f = open("./data.txt", "a")
         #print([msg.payload.decode(), msg.topic])
         f.write(str(msg.payload.decode())[:-1] + ", 'roomId': '" + str(msg.topic) + "'}" + "\n")
         f.close()
@@ -37,7 +36,7 @@ def subscribe(client: mqtt_client):
 def run():
     client = connect_mqtt()
     subscribe(client)
-    client.loop_forever()
+    client.loop_start()
 
 if __name__ == '__main__':
     run()

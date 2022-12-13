@@ -1,12 +1,13 @@
 import DataProcesser
 import pandas as pd
 import mqttTools.subscribe as Sub
-from multiprocessing import Process
 import ast
 import redis
 import json
 import pytz
+import time
 from datetime import datetime
+import os
 
 roomDictionary = {}
 roomOccupancy  = {}
@@ -27,25 +28,34 @@ def processData():
         else:
             roomOccupancy.update({roomDictionary[key][1]: roomOccupancy[roomDictionary[key][1]] + 1})
 
+
 def redisDataHandler():
     currentData = redis_cache.json().get("room")
+    currentKeys = list((row["ESPId"] for row in currentData["RoomOccupancy"]))
     for key in roomOccupancy.keys():
-        if not key in currentData["RoomOccupancy"]:
-            currentData["RoomOccupancy"].append({"ESPId":key,"Occupants":0,"TimeSinceLast": datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M")})
+            if not key in currentKeys:
+                currentData["RoomOccupancy"].append({"ESPId":key,"Occupants":0,"TimeSinceLast": datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M")})
 
     for row in currentData["RoomOccupancy"]:
         if row["ESPId"] in roomOccupancy:
             row.update({"Occupants": roomOccupancy[row["ESPId"]], "TimeSinceLast": None})
         else:
             row.update({"Occupants": 0, "TimeSinceLast" : datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M")})
-    print(json.dumps(currentData, indent=4))
+    #print(json.dumps(currentData, indent=4))
     redis_cache.json().set("room", ".", currentData)    
 
 def run() :
-        processData()
-        redisDataHandler()
-run() 
-#p0 = Process(target=Sub.run)
-#p0.start()
-#p1 = Process(target=run())
-#p1.start()
+    global roomDictionary
+    global roomOccupancy
+    while True:
+        if not os.stat("data.txt").st_size == 0:
+            processData()
+            redisDataHandler()
+            open("data.txt", "w").close()
+            roomDictionary = {}
+            roomOccupancy  = {}
+            time.sleep(10)
+
+if __name__ == '__main__':
+    Sub.run()
+    run()
