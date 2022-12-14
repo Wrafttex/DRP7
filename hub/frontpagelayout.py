@@ -20,6 +20,7 @@ def espdivLayout(roomjson):
         startlayout = f"{startlayout}  </div> </div>"
         for index in range(len(roomjson["RoomOccupancy"])):
             roomid = str(roomjson['RoomOccupancy'][index]['ESPId']).split("/")[-1]
+            fullid = roomjson['RoomOccupancy'][index]['ESPId']
             startmodallayout = f"<div class=\"modal fade\" id=\"Modal{roomid}\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"Modal{roomid}Title\" aria-hidden=\"true\">"    
             headmodallayout = f"<div class=\"modal-dialog modal-dialog-centered\" role=\"document\"> <div class=\"modal-content\"> <div class=\"modal-header\"> <h5 class=\"modal-title\" id=\"Modal{roomjson['RoomOccupancy'][index]['ESPId']}Title\">{roomjson['RoomOccupancy'][index]['ESPId']}</h5> <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button></div>"
             bodymodalstarterlayout = f"<div class=\"modal-body\"><table class=\"table\"><thead><tr><th scope=\"col\">param</th><th scope=\"col\">Value</th></tr></thead><tbody>"
@@ -27,7 +28,7 @@ def espdivLayout(roomjson):
             for contentkey in roomjson["RoomOccupancy"][index].keys():
                 bodymodalcontentlayout = f"<tr><th scope=\"row\">{contentkey}</th><td>{roomjson['RoomOccupancy'][index][contentkey]}</td></tr><tr>"
                 bodymodalstarterlayout = f"{bodymodalstarterlayout} {bodymodalcontentlayout}"
-            footermodallayout = f"</tbody></table></div><div class=\"modal-footer\"></div></div></div></div>"
+            footermodallayout = f"</tbody></table><button class=\"btn btn-danger \" id=\"deletebtn_{fullid}\" type=\"button\">Delete</button><h2 id=\"status_{roomid}\"></h2></div><div class=\"modal-footer\"></div></div></div></div>"
             startlayout = f"{startlayout} {startmodallayout} {headmodallayout} {bodymodalstarterlayout} {footermodallayout}"
     except TypeError:
         startlayout=""

@@ -10,7 +10,11 @@ redis_cache = redis.Redis(host="redis",port=6379,decode_responses=True)
 def defaultsettings(dictonary):
     for key in list(dictonary.keys()):
         if dictonary[key] == "":
-            dictonary[key]=redis_cache.get(key)
+            tempvalue = redis_cache.get(key)
+            if tempvalue == None:
+                dictonary[key]=""
+            else:
+                dictonary[key]=tempvalue
     return dictonary
 
 broker = "localhost"
@@ -20,6 +24,23 @@ username = "TestUser"
 password = "TestPassword"
 clientID = "HubSubcribe"
 
+@app.route("/updatedb",methods=["POST"])
+def updatedb():
+    if request.method == "POST":
+        room_name = request.form.to_dict()
+        print(room_name)
+        jsondata = redis_cache.json().get("room")
+        print(jsondata)
+        for index in range(len(jsondata["RoomOccupancy"])):
+            print(jsondata["RoomOccupancy"][index]["ESPId"])
+            if jsondata["RoomOccupancy"][index]["ESPId"] == room_name["room_name"]:
+                jsondata["RoomOccupancy"].pop(index)
+                print("poped",jsondata["RoomOccupancy"])
+                redis_cache.json().set('room',".",jsondata)
+                
+                break
+        
+    return "succes",200
 
 @app.route("/imagetesting",methods=["GET","POST"])
 def imagetest():
@@ -52,13 +73,13 @@ def esp_flash():
 @app.route("/customdata",methods=["POST","GET"])
 def customdata():
     espdata = request.form.to_dict()
+    espdata = defaultsettings(espdata)
     mainspiffs(espdata["room_name"],espdata["ssid"],espdata["wifi_pass"],espdata["mqtt_host"],espdata["mqtt_port"],espdata["mqtt_user"],espdata["mqtt_pass"])
     return espdata,200
 
 
 @app.route("/")
 def index():
-    print("testing")
     roomjson = redis_cache.json().get("room")
     return render_template("index.html",esp=espdivLayout(roomjson))
 
