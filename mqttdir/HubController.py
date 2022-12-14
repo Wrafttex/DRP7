@@ -29,10 +29,28 @@ def processData():
         else:
             roomOccupancy.update({roomDictionary[key][1]: roomOccupancy[roomDictionary[key][1]] + 1})
 
+def getData():
+    global roomOccupancy
+    seedData = {
+        "RoomOccupancy": []
+    }
+    try:
+        data = redis_cache.json().get("room")
+        assert (data != None), "Database Empty"
+        return data
+    except :
+        while os.stat("data.txt").st_size == 0:
+            time.sleep(1)
+
+        processData()
+        firstEntry = list(roomOccupancy.keys())[0]
+        seedData["RoomOccupancy"].append({"ESPId": firstEntry, "Occupants": roomOccupancy[firstEntry], "TimeSinceLast": None})
+        redis_cache.json().set("room", ".", seedData)
+        return seedData
 
 def redisDataHandler():
     roomEmpty == 0
-    currentData = redis_cache.json().get("room")
+    currentData = getData()
     currentKeys = list((row["ESPId"] for row in currentData["RoomOccupancy"]))
     for key in roomOccupancy.keys():
             if not key in currentKeys:
@@ -51,7 +69,7 @@ def allRoomsEmpty():
     if roomEmpty == 0:
         roomEmptyTime = datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M")
         roomEmpty = 1
-    currentData = redis_cache.json().get("room")
+    currentData = getData()
     for row in currentData["RoomOccupancy"]:
         row.update({"Occupants": 0, "TimeSinceLast" : roomEmptyTime})
     redis_cache.json().set("room", ".", currentData) 
@@ -67,9 +85,10 @@ def run() :
             open("data.txt", "w").close()
             roomDictionary = {}
             roomOccupancy  = {}
-            time.sleep(10)
+            time.sleep(5)
         else:
            allRoomsEmpty()
+           time.sleep(5)
 
 def test():
     while True:
