@@ -3,7 +3,6 @@ import pandas as pd
 def dataProcesser(data, roomDictionary):
     roomBleList = pd.DataFrame(data).drop(columns=["speed", "interval", "idType", "rssi@1m", "raw", "distance"])
     
-    #print(roomBleList)
     for row in roomBleList.index:
         if not roomBleList["mac"][row] in roomDictionary.keys():
             roomDictionary.update({roomBleList["mac"][row]: [roomBleList["rssi"][row], roomBleList["roomId"][row]]})

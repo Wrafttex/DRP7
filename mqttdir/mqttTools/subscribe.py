@@ -1,6 +1,6 @@
 from paho.mqtt import client as mqtt_client
 import socket
-# ipaddd = socket.gethostbyname("mosquitto")
+
 broker = "mosquitto"
 port = 1883
 topic = "espresense/rooms/+"
@@ -23,16 +23,13 @@ def connect_mqtt():
 
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
-        #print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
         f = open("./data.txt", "a")
-        #print([msg.payload.decode(), msg.topic])
         f.write(str(msg.payload.decode())[:-1] + ", 'roomId': '" + str(msg.topic) + "'}" + "\n")
         f.close()
         return msg.payload.decode()
 
     client.subscribe(topic)
     client.on_message = on_message
-    
 
 def run():
     client = connect_mqtt()

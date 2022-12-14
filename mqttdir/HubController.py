@@ -3,7 +3,6 @@ import pandas as pd
 import mqttTools.subscribe as Sub
 import ast
 import redis
-import json
 import pytz
 import time
 from datetime import datetime
@@ -44,7 +43,6 @@ def redisDataHandler():
             row.update({"Occupants": roomOccupancy[row["ESPId"]], "TimeSinceLast": None})
         else:
             row.update({"Occupants": 0, "TimeSinceLast" : datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M")})
-    #print(json.dumps(currentData, indent=4))
     redis_cache.json().set("room", ".", currentData) 
 
 def allRoomsEmpty():

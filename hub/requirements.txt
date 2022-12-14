@@ -1,6 +1,4 @@
 flask
 flask-cors
 redis
-paho-mqtt
-pandas
 gunicorn
