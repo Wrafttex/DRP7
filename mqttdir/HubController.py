@@ -93,10 +93,10 @@ def run():
             redisDataHandler()
             roomDictionary = {}
             roomOccupancy  = {}
-            time.sleep(5)
+            time.sleep(1)
         else:
            allRoomsEmpty()
-           time.sleep(5)
+           time.sleep(1)
 
 def test():
     while True:
