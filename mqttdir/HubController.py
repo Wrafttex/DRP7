@@ -64,10 +64,10 @@ def redisDataHandler():
         EspId = row["ESPId"]
         if  EspId in roomOccupancy:
             row.update({"Occupants": roomOccupancy[EspId], "TimeSinceLast": None})
-            Pub.publish(pubClient, "True", f"espresense/rooms/{EspId}/occupancy")
+            Pub.publish(pubClient, "True", f"{EspId}/occupancy")
         else:
             row.update({"Occupants": 0, "TimeSinceLast" : datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M")})
-            Pub.publish(pubClient, "False", f"espresense/rooms/{EspId}/occupancy")
+            Pub.publish(pubClient, "False", f"{EspId}/occupancy")
     redis_cache.json().set("room", ".", currentData) 
 
 def allRoomsEmpty():
