@@ -1,6 +1,7 @@
 import DataProcesser
 import pandas as pd
 import mqttTools.subscribe as Sub
+import mqttTools.puplish as Pub
 import ast
 import redis
 import pytz
@@ -12,10 +13,12 @@ roomDictionary = {}
 roomOccupancy  = {}
 roomEmpty = 0
 roomEmptyTime = None
+pubClient = 0
 redis_cache = redis.Redis(host="redis",port=6379,decode_responses=True)
 
 def processData():
     rawData = open("data.txt", "r").readlines()
+    open("data.txt", "w").close()
     formatedData = []
 
     for row in rawData:
@@ -49,6 +52,7 @@ def getData():
         return seedData
 
 def redisDataHandler():
+    global pubClient
     roomEmpty == 0
     currentData = getData()
     currentKeys = list((row["ESPId"] for row in currentData["RoomOccupancy"]))
@@ -57,10 +61,13 @@ def redisDataHandler():
                 currentData["RoomOccupancy"].append({"ESPId":key,"Occupants":0,"TimeSinceLast": datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M")})
 
     for row in currentData["RoomOccupancy"]:
-        if row["ESPId"] in roomOccupancy:
-            row.update({"Occupants": roomOccupancy[row["ESPId"]], "TimeSinceLast": None})
+        EspId = row["ESPId"]
+        if  EspId in roomOccupancy:
+            row.update({"Occupants": roomOccupancy[ EspId], "TimeSinceLast": None})
+            Pub.publish(pubClient, "True", f"espresense/rooms/{EspId}/occupancy")
         else:
             row.update({"Occupants": 0, "TimeSinceLast" : datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M")})
+            Pub.publish(pubClient, "False", f"espresense/rooms/{EspId}/occupancy")
     redis_cache.json().set("room", ".", currentData) 
 
 def allRoomsEmpty():
@@ -74,15 +81,17 @@ def allRoomsEmpty():
         row.update({"Occupants": 0, "TimeSinceLast" : roomEmptyTime})
     redis_cache.json().set("room", ".", currentData) 
 
-def run() :
+def run():
     global roomDictionary
     global roomOccupancy
+    global pubClient
     Sub.run()
+    pubClient = Pub.connect_mqtt()
+    pubClient.loop_start()
     while True:
         if not os.stat("data.txt").st_size == 0:
             processData()
             redisDataHandler()
-            open("data.txt", "w").close()
             roomDictionary = {}
             roomOccupancy  = {}
             time.sleep(5)

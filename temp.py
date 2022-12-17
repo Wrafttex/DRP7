@@ -1,26 +1,6 @@
-import unittest
-from mqttTools import puplish, subscribe
-import DataProcesser
-import paho.mqtt
-from redis import Redis
+from mqttdir import HubController 
 
-
-class TestStringMethods(unittest.TestCase):
-
-    #-------- These work on the docker ---------------
-    def test_publish_connect(self):
-        self.assertEqual(type(puplish.connect_mqtt()), paho.mqtt.client.Client)
-
-    def test_subscribe_connect(self):
-        self.assertEqual(type(subscribe.connect_mqtt()), paho.mqtt.client.Client)
-
-    def test_redisConnection(self):
-        redisHost = "redis"
-        r = Redis(redisHost, socket_connect_timeout=1) # short timeout for the test
-        self.assertTrue(r.ping())
-
-    def test_dataprocesser(self):
-        testData = [{'id': '244b03d72780', 'idType': 55, 'rssi@1m': -71, 'rssi': -84, 'raw': 2.35, 'distance': 2.25, 'speed': 0.02, 'mac': '244b03d72780', 'interval': 615, 'roomId': 'test/topic'},
+testData = [{'id': '244b03d72780', 'idType': 55, 'rssi@1m': -71, 'rssi': -84, 'raw': 2.35, 'distance': 2.25, 'speed': 0.02, 'mac': '244b03d72780', 'interval': 615, 'roomId': 'test/topic'},
             {"id":"msft:cdp:0922","idType":40,"rssi@1m":-71,"rssi":-40,"raw":0.94,"distance":0.51,"speed":0.02,"mac":"3c690ee96a82","interval":312, 'roomId': 'test/topic/2'},
             {"id":"244b03d72780","idType":55,"rssi@1m":-71,"rssi":-23,"raw":2.35,"distance":2.25,"speed":0.02,"mac":"244b03d72780","interval":615, 'roomId': 'test/topic/2'},
             {"id":"sd:0xfe9f","idType":15,"rssi@1m":-71,"rssi":-54,"raw":0.33,"distance":0.35,"speed":-0.00,"mac":"55959568c9b6","interval":746, 'roomId': 'test/topic'},
@@ -39,28 +19,12 @@ class TestStringMethods(unittest.TestCase):
             {"id":"msft:cdp:0922","idType":40,"rssi@1m":-71,"rssi":-60,"raw":0.48,"distance":0.53,"speed":-0.00,"mac":"3c690ee96a82","interval":308, 'roomId': 'test/topic'},
             {"id":"244b03d72780","idType":55,"rssi@1m":-71,"rssi":-83,"raw":2.20,"distance":2.36,"speed":-0.01,"mac":"244b03d72780","interval":607, 'roomId': 'test/topic/2'},
             {"id":"sd:0xfe9f","idType":15,"rssi@1m":-71,"rssi":-56,"raw":0.37,"distance":0.33,"speed":0.00,"mac":"55959568c9b6","interval":747, 'roomId': 'test/topic'}]
-        testRoomDictionary = {}
-        correctData = {'244b03d72780': [-23, 'test/topic/2'], '3c690ee96a82': [-40, 'test/topic/2'], '55959568c9b6': [-54, 'test/topic'], '7422e97424d0': [-82, 'test/topic'], '74812d6dada3': [-85, 'test/topic'], '4949491706f1': [-90, 'test/topic'], '5434446b9108': [-81, 'test/topic'], 'bc7e8b2e9a71': [-93, 'test/topic']}
+f = open("data.txt", "w")
+for row in testData:
+    f.write(row)
 
-        DataProcesser.dataProcesser(testData, testRoomDictionary)
-        
-        self.assertEqual(testRoomDictionary, correctData)
 
-        # def test_publish_publish(self):
-    #     self.assertTrue(puplish.publish(self.pubClient))
-
-    # def test_publish_run(self):
-    #     self.assertTrue(puplish.run(self.pubClient))
-
-    # def test_subscribe_connect(self):
-    #     self.subClient = subscribe.connect_mqtt()
-    #     self.assertIs(self.subClient, subscribe.mqtt_client.Client)
-
-    # def test_subscribe_subscribe(self):
-    #     self.assertTrue(puplish.publish(self.subClient))
-
-    # def test_subscribe_run(self):
-    #     self.assertTrue(puplish.run(self.subClient))
-
-if __name__ == '__main__':
-    unittest.main()
+HubController.processData()
+f.close()
+open("data.txt", "w").close()
+print(HubController.roomOccupancy)

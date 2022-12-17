@@ -3,7 +3,7 @@ import time
 
 broker = "mosquitto"
 port = 1883
-topic = "espresense/rooms/BleTestDevice2"
+#topic = "espresense/rooms/BleTestDevice2"
 username = "TestUser"
 password = "TestPassword"
 clientID = "BleTestDevice"
@@ -21,20 +21,22 @@ def connect_mqtt():
     client.connect(broker, port)
     return client
 
-def publish(client, msg):
+def publish(client, msg, topic):
     while True:
         time.sleep(0.5)
         result = client.publish(topic, msg)
         status = result[0]
-        if status == 0:
-            print(f"Send `{msg}` to topic `{topic}`")
-        else:
+        if not status == 0:
             print(f"Failed to send message: {msg} to topic {topic}")
+        # if status == 0:
+        #     print(f"Send `{msg}` to topic `{topic}`")
+        # else:
+        #     print(f"Failed to send message: {msg} to topic {topic}")
 
 def run():
     client = connect_mqtt()
     client.loop_start()
-    publish(client, str({"id":"244b03d72780","idType":55,"rssi@1m":-71,"rssi":-84,"raw":2.35,"distance":2.25,"speed":0.02,"mac":"244b03d72780","interval":615}))
+    #publish(client, msg, topic)
 
 if __name__ == '__main__':
     run()
