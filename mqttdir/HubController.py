@@ -86,8 +86,7 @@ def run():
     global roomOccupancy
     global pubClient
     Sub.run()
-    pubClient = Pub.connect_mqtt()
-    pubClient.loop_start()
+    pubClient = Pub.run()
     while True:
         if not os.stat("data.txt").st_size == 0:
             processData()

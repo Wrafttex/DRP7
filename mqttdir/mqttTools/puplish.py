@@ -22,8 +22,6 @@ def connect_mqtt():
     return client
 
 def publish(client, msg, topic):
-    while True:
-        time.sleep(0.5)
         result = client.publish(topic, msg)
         status = result[0]
         if not status == 0:
@@ -36,6 +34,7 @@ def publish(client, msg, topic):
 def run():
     client = connect_mqtt()
     client.loop_start()
+    return client
     #publish(client, msg, topic)
 
 if __name__ == '__main__':
