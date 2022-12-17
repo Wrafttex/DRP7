@@ -63,7 +63,7 @@ def redisDataHandler():
     for row in currentData["RoomOccupancy"]:
         EspId = row["ESPId"]
         if  EspId in roomOccupancy:
-            row.update({"Occupants": roomOccupancy[ EspId], "TimeSinceLast": None})
+            row.update({"Occupants": roomOccupancy[EspId], "TimeSinceLast": None})
             Pub.publish(pubClient, "True", f"espresense/rooms/{EspId}/occupancy")
         else:
             row.update({"Occupants": 0, "TimeSinceLast" : datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M")})
