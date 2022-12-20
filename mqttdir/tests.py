@@ -16,7 +16,7 @@ class TestStringMethods(unittest.TestCase):
 
     def test_redisConnection(self):
         redisHost = "redis"
-        r = Redis(redisHost, socket_connect_timeout=1) # short timeout for the test
+        r = Redis(redisHost, socket_connect_timeout=1) 
         self.assertTrue(r.ping())
 
     def test_dataprocesser(self):

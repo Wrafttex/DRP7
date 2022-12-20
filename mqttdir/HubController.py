@@ -19,6 +19,7 @@ redis_cache = redis.Redis(host="redis",port=6379,decode_responses=True)
 def processData():
     rawData = open("data.txt", "r").readlines()
     open("data.txt", "w").close()
+
     formatedData = []
 
     for row in rawData:
@@ -54,6 +55,7 @@ def getData():
 def redisDataHandler():
     global pubClient
     roomEmpty == 0
+    count = 0
     currentData = getData()
     currentKeys = list((row["ESPId"] for row in currentData["RoomOccupancy"]))
     for key in roomOccupancy.keys():
@@ -68,6 +70,10 @@ def redisDataHandler():
         else:
             row.update({"Occupants": 0, "TimeSinceLast" : datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M")})
             Pub.publish(pubClient, "False", f"{EspId}/occupancy")
+        count += 1
+
+    print(f"Publish count: {count}")
+            
     redis_cache.json().set("room", ".", currentData) 
 
 def allRoomsEmpty():
@@ -78,7 +84,9 @@ def allRoomsEmpty():
         roomEmpty = 1
     currentData = getData()
     for row in currentData["RoomOccupancy"]:
+        espId = row["ESPId"]
         row.update({"Occupants": 0, "TimeSinceLast" : roomEmptyTime})
+        Pub.publish(pubClient, "False", f"{espId}/occupancy")
     redis_cache.json().set("room", ".", currentData) 
 
 def run():
@@ -88,6 +96,7 @@ def run():
     Sub.run()
     pubClient = Pub.run()
     while True:
+        rawData = open("data.txt", "r")
         if not os.stat("data.txt").st_size == 0:
             processData()
             redisDataHandler()
@@ -95,8 +104,9 @@ def run():
             roomOccupancy  = {}
             time.sleep(1)
         else:
-           allRoomsEmpty()
-           time.sleep(1)
+            allRoomsEmpty()
+            rawData.close()
+            time.sleep(1)
 
 def test():
     while True:

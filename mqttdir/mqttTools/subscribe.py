@@ -35,6 +35,7 @@ def run():
     client = connect_mqtt()
     subscribe(client)
     client.loop_start()
+    
 
 if __name__ == '__main__':
     run()
