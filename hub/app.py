@@ -2,7 +2,7 @@ import redis
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from mainspiffs import mainspiffs
-from frontpagelayout import espdivLayout
+from frontpagelayout import espGridLayout
 app = Flask(__name__)
 CORS(app)
 redis_cache = redis.Redis(host="redis",port=6379,decode_responses=True)
@@ -29,14 +29,14 @@ def updatedb():
     if request.method == "POST":
         room_name = request.form.to_dict()
         print(room_name)
-        jsondata = redis_cache.json().get("room")
-        print(jsondata)
-        for index in range(len(jsondata["RoomOccupancy"])):
-            print(jsondata["RoomOccupancy"][index]["ESPId"])
-            if jsondata["RoomOccupancy"][index]["ESPId"] == room_name["room_name"]:
-                jsondata["RoomOccupancy"].pop(index)
-                print("poped",jsondata["RoomOccupancy"])
-                redis_cache.json().set('room',".",jsondata)
+        json_data = redis_cache.json().get("room")
+        print(json_data)
+        for index in range(len(json_data["RoomOccupancy"])):
+            print(json_data["RoomOccupancy"][index]["ESPId"])
+            if json_data["RoomOccupancy"][index]["ESPId"] == room_name["room_name"]:
+                json_data["RoomOccupancy"].pop(index)
+                print("poped",json_data["RoomOccupancy"])
+                redis_cache.json().set('room',".",json_data)
                 
                 break
         
@@ -56,13 +56,13 @@ def data():
     return "okay",200
 
 def nonetoempty(obj):
-    emptylist = []
+    empty_list = []
     for local in obj:
         if local == None:
-            emptylist.append("")
+            empty_list.append("")
         else:
-            emptylist.append(local)
-    return emptylist
+            empty_list.append(local)
+    return empty_list
 
 
 @app.route("/esp_flash")
@@ -72,16 +72,16 @@ def esp_flash():
 
 @app.route("/customdata",methods=["POST","GET"])
 def customdata():
-    espdata = request.form.to_dict()
-    espdata = defaultsettings(espdata)
-    mainspiffs(espdata["room_name"],espdata["ssid"],espdata["wifi_pass"],espdata["mqtt_host"],espdata["mqtt_port"],espdata["mqtt_user"],espdata["mqtt_pass"])
-    return espdata,200
+    esp_data = request.form.to_dict()
+    esp_data = defaultsettings(esp_data)
+    mainspiffs(esp_data["room_name"],esp_data["ssid"],esp_data["wifi_pass"],esp_data["mqtt_host"],esp_data["mqtt_port"],esp_data["mqtt_user"],esp_data["mqtt_pass"])
+    return esp_data,200
 
 
 @app.route("/")
 def index():
     roomjson = redis_cache.json().get("room")
-    return render_template("index.html",esp=espdivLayout(roomjson))
+    return render_template("index.html",esp=espGridLayout(roomjson))
 
 
 @app.route("/setting",methods=["GET","POST"])
