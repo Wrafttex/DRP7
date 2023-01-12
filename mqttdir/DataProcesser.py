@@ -1,6 +1,12 @@
+import ast
+import time
+import pytz
 import pandas as pd
+from queue import Queue
+from datetime import datetime
 
-def dataProcesser(data, roomDictionary):
+def dataProcesser(data):
+    roomDictionary = {}
     roomBleList = pd.DataFrame(data).drop(columns=["speed", "interval", "idType", "rssi@1m", "raw", "distance"])
     
     for row in roomBleList.index:
@@ -13,3 +19,55 @@ def dataProcesser(data, roomDictionary):
                 roomDictionary.update({roomBleList["mac"][row]: [roomBleList["rssi"][row], roomBleList["roomId"][row]]})
             else:
                 continue
+
+    roomOccupancy = {}
+    for key in roomDictionary:
+        if not roomDictionary[key][1] in roomOccupancy:
+            roomOccupancy.update({roomDictionary[key][1]: 1})
+        else:
+            roomOccupancy.update({roomDictionary[key][1]: roomOccupancy[roomDictionary[key][1]] + 1})
+
+    return roomOccupancy
+
+
+def redisDataHandler(roomOccupancy: dict, redis_cache):
+    currentData = redis_cache.json().get("room")
+    currentTime = datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M:%S")
+    
+    if currentData == None: # if database Empty
+        currentData = {"RoomOccupancy": []}
+        currentKeys = []
+    else:
+        currentKeys = list((row["ESPId"] for row in currentData["RoomOccupancy"]))
+    
+    for key in roomOccupancy.keys():
+        if key not in currentKeys:
+            currentData["RoomOccupancy"].append({"ESPId":key,"Occupants":0,"TimeSinceLast": currentTime})
+
+    for row in currentData["RoomOccupancy"]:
+        EspId = row["ESPId"]
+        if EspId in roomOccupancy:
+            row.update({"Occupants": roomOccupancy[EspId], "TimeSinceLast": currentTime})
+            
+    redis_cache.json().set("room", ".", currentData) 
+
+def processData(dataQueue: Queue, redis_cache):
+    while True:
+        if not dataQueue.empty():
+            numItems = 0
+            formatedData = []
+            while numItems <= 50:
+                numItems += 1
+                try:
+                    data = dataQueue.get_nowait()
+                    formatedData.append(ast.literal_eval(data))
+                    dataQueue.task_done()
+                except Queue.Empty:
+                    break
+
+            inputData = pd.DataFrame(formatedData)
+            roomOccupancy = dataProcesser(inputData)
+        
+            redisDataHandler(roomOccupancy, redis_cache)
+        else:
+            time.sleep(.5)

@@ -2,7 +2,7 @@ import redis
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from mainspiffs import mainspiffs
-from frontpagelayout import espGridLayout
+from frontpagelayout import espgridLayout
 app = Flask(__name__)
 CORS(app)
 redis_cache = redis.Redis(host="redis",port=6379,decode_responses=True)
@@ -81,7 +81,7 @@ def customdata():
 @app.route("/")
 def index():
     roomjson = redis_cache.json().get("room")
-    return render_template("index.html",esp=espGridLayout(roomjson))
+    return render_template("index.html",esp=espgridLayout(roomjson))
 
 
 @app.route("/setting",methods=["GET","POST"])
