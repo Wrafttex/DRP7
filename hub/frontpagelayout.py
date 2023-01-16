@@ -1,4 +1,4 @@
-def espgridLayout(roomjson):
+def espGridLayout(roomjson):
     print(roomjson)
     divscope = "<div class=\"row\">"
     outerdivclass ="col-6 col-sm-6 col-md-4 col-lg-2 col-xl-1"
