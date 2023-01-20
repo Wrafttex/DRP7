@@ -1,8 +1,9 @@
 import ast
+import sys
 import time
 import pytz
 import pandas as pd
-from queue import Queue
+import queue
 from datetime import datetime
 
 def dataProcesser(data):
@@ -51,7 +52,7 @@ def redisDataHandler(roomOccupancy: dict, redis_cache):
             
     redis_cache.json().set("room", ".", currentData) 
 
-def processData(dataQueue: Queue, redis_cache):
+def processData(dataQueue: queue.Queue, redis_cache):
     while True:
         if not dataQueue.empty():
             numItems = 0
@@ -62,7 +63,7 @@ def processData(dataQueue: Queue, redis_cache):
                     data = dataQueue.get_nowait()
                     formatedData.append(ast.literal_eval(data))
                     dataQueue.task_done()
-                except Queue.Empty:
+                except queue.Empty:
                     break
 
             inputData = pd.DataFrame(formatedData)

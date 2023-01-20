@@ -9,21 +9,22 @@ import mqttTools.puplish as Pub
 import mqttTools.subscribe as Sub
 
 def checkRooms(redis_cache):
-    currentData = redis_cache.json().get("room")
-    if currentData != None:
-        currentTime = datetime.strptime(datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M:%S"), "%H:%M:%S")
-        for row in currentData["RoomOccupancy"]:
-            espId = row["ESPId"]
-            dTime = currentTime - datetime.strptime(row["TimeSinceLast"], "%H:%M:%S")
-            
-            if dTime.total_seconds() >= 5:
-                row.update({"Occupants": 0})
-                Pub.publish("False", f"{espId}/occupancy")
-            else:
-                Pub.publish("True", f"{espId}/occupancy")
+    while True:
+        currentData = redis_cache.json().get("room")
+        if currentData != None:
+            currentTime = datetime.strptime(datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M:%S"), "%H:%M:%S")
+            for row in currentData["RoomOccupancy"]:
+                espId = row["ESPId"]
+                dTime = currentTime - datetime.strptime(row["TimeSinceLast"], "%H:%M:%S")
+                
+                if dTime.total_seconds() >= 5:
+                    row.update({"Occupants": 0})
+                    Pub.publish("False", f"{espId}/occupancy")
+                else:
+                    Pub.publish("True", f"{espId}/occupancy")
 
-        redis_cache.json().set("room", ".", currentData)
-    else:
+            redis_cache.json().set("room", ".", currentData)
+        
         time.sleep(4)
 
 def run():

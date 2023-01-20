@@ -9,7 +9,7 @@ client = mqtt_client.Client(clientID)
 
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
-        print("Connected to MQTT Broker!")
+        print("pub connected to MQTT Broker!")
     else:
         print("Failed to connect, return code %d\n", rc)
 
