@@ -6,8 +6,8 @@
         <div class ="form-row mx-auto" >
             <div class ="form-group mx-auto mt-1">
                 <h1>ESP Custom Flash Tool</h1>
-                <script type="module" src="https://unpkg.com/esp-web-tools@3.4.2/dist/web/install-button.js?module"></script><!-- #TODO hidden="true"-->
-                <esp-web-install-button id="installButton" manifest="{{ url_for('static',filename='ESP_DATA/manifest.json') }}" hidden="true"></esp-web-install-button>
+                <script type="module" src="{{ url_for('static',filename='scripts/ESP_Install/install-button.js') }}"></script><!-- #TODO hidden="true"-->
+                <esp-web-install-button id="installButton" manifest="{{ url_for('static',filename='ESP_DATA/manifest.json') }}" hidden="false"></esp-web-install-button>
                 <button id="disabledbutton" type="button" class="btn btn-danger" disabled>INSTALL</button>
                 <form method="post" id="flash-form">
                     <h4 class="my-3">Custom Settings</h4> 
