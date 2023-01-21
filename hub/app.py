@@ -28,14 +28,14 @@ clientID = "HubSubcribe"
 def updatedb():
     if request.method == "POST":
         room_name = request.form.to_dict()
-        print(room_name)
+        # print(room_name)
         json_data = redis_cache.json().get("room")
-        print(json_data)
+        # print(json_data)
         for index in range(len(json_data["RoomOccupancy"])):
-            print(json_data["RoomOccupancy"][index]["ESPId"])
+            # print(json_data["RoomOccupancy"][index]["ESPId"])
             if json_data["RoomOccupancy"][index]["ESPId"] == room_name["room_name"]:
                 json_data["RoomOccupancy"].pop(index)
-                print("poped",json_data["RoomOccupancy"])
+                # print("poped",json_data["RoomOccupancy"])
                 redis_cache.json().set('room',".",json_data)
                 
                 break

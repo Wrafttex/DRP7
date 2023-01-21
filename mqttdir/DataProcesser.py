@@ -1,10 +1,7 @@
 import ast
-import sys
 import time
-import pytz
 import pandas as pd
 import queue
-from datetime import datetime
 
 def dataProcesser(data):
     roomDictionary = {}
@@ -33,7 +30,7 @@ def dataProcesser(data):
 
 def redisDataHandler(roomOccupancy: dict, redis_cache):
     currentData = redis_cache.json().get("room")
-    currentTime = datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M:%S")
+    currentTime = time.time()
     
     if currentData == None: # if database Empty
         currentData = {"RoomOccupancy": []}

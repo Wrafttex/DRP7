@@ -1,10 +1,9 @@
 import time
-import pytz
+import sys
 import redis
 import DataProcesser
 from queue import Queue
 from threading import Thread
-from datetime import datetime
 import mqttTools.puplish as Pub
 import mqttTools.subscribe as Sub
 
@@ -12,16 +11,20 @@ def checkRooms(redis_cache):
     while True:
         currentData = redis_cache.json().get("room")
         if currentData != None:
-            currentTime = datetime.strptime(datetime.now(pytz.timezone('Europe/Copenhagen')).strftime("%H:%M:%S"), "%H:%M:%S")
+            currentTime = time.time()
             for row in currentData["RoomOccupancy"]:
-                espId = row["ESPId"]
-                dTime = currentTime - datetime.strptime(row["TimeSinceLast"], "%H:%M:%S")
+                espTopic = row["ESPId"]
+                espId = espTopic.split('/')[2]
+
+                dTime = currentTime - row["TimeSinceLast"]
                 
-                if dTime.total_seconds() >= 5:
+                if dTime >= 5:
                     row.update({"Occupants": 0})
-                    Pub.publish("False", f"{espId}/occupancy")
+                    Pub.publish("False", f"{espTopic}/occupancy")
+                    Pub.publish("off", f"cmnd/{espId}/POWER")
                 else:
-                    Pub.publish("True", f"{espId}/occupancy")
+                    Pub.publish("True", f"{espTopic}/occupancy")
+                    Pub.publish("on", f"cmnd/{espId}/POWER")
 
             redis_cache.json().set("room", ".", currentData)
         

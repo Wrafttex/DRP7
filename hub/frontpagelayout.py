@@ -1,5 +1,6 @@
+from datetime import datetime
 def espgridLayout(roomjson):
-    print(roomjson)
+    # print(roomjson)
     divscope = "<div class=\"row\">"
     outerdivclass ="col-6 col-sm-6 col-md-4 col-lg-2 col-xl-1"
     innerdivclass = "border border-dark mx-auto my-1 row"
@@ -16,7 +17,7 @@ def espgridLayout(roomjson):
         for index in range(len(roomjson["RoomOccupancy"])):
             roomid = str(roomjson['RoomOccupancy'][index]['ESPId']).split("/")[-1]
             colorcondition = "green" if roomjson['RoomOccupancy'][index]["Occupants"] > 0 else "red"
-            print(roomjson['RoomOccupancy'][index]["Occupants"])
+            # print(roomjson['RoomOccupancy'][index]["Occupants"])
             dotclass = f'style=\"background-color: {colorcondition}; {dotstyle} \"'
             
             innercontentdiv = f"<button type=\"button\" data-toggle=\"modal\" data-target=\"#Modal{roomid}\" class=\"{secbtnclass}\">{roomid}</button> </h5> <span class=\"{circleclass}\" {dotclass}>"
@@ -30,7 +31,12 @@ def espgridLayout(roomjson):
             bodymodalstarterlayout = f"<div class=\"modal-body\"><table class=\"table\"><thead><tr><th scope=\"col\">param</th><th scope=\"col\">Value</th></tr></thead><tbody>"
             
             for contentkey in roomjson["RoomOccupancy"][index].keys():
-                bodymodalcontentlayout = f"<tr><th scope=\"row\">{contentkey}</th><td>{roomjson['RoomOccupancy'][index][contentkey]}</td></tr><tr>"
+                if contentkey == "TimeSinceLast" and roomjson['RoomOccupancy'][index][contentkey] != None and type(roomjson['RoomOccupancy'][index][contentkey]) != str:
+                    localtime = datetime.fromtimestamp(roomjson['RoomOccupancy'][index][contentkey]).strftime('%d/%m/%Y %H:%M:%S')
+                    bodymodalcontentlayout = f"<tr><th scope=\"row\">{contentkey}</th><td>{localtime}</td></tr><tr>"
+
+                else:    
+                    bodymodalcontentlayout = f"<tr><th scope=\"row\">{contentkey}</th><td>{roomjson['RoomOccupancy'][index][contentkey]}</td></tr><tr>"
                 bodymodalstarterlayout = f"{bodymodalstarterlayout} {bodymodalcontentlayout}"
                 
             footermodallayout = f"</tbody></table><button class=\"{dangerbtnclass}\" id=\"deletebtn_{fullid}\" type=\"button\">Delete</button><h2 id=\"status_{roomid}\"></h2></div><div class=\"modal-footer\"></div></div></div></div>"
